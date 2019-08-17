@@ -1,0 +1,15 @@
+.form div {
+  display: grid;
+  gap: 0.5em;
+  grid-template-columns: max-content 1fr;
+  list-style: none;
+  padding: 0;
+}
+
+.form label {
+  text-align: left;
+}
+
+.form footer {
+  margin-top: 0.5em;
+}

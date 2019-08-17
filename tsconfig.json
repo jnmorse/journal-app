@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "esNext",
+    "sourceMap": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "lib": ["es2017", "es2016", "dom"],
+    "outDir": "./dist",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "resolveJsonModule": true
+  }
+}

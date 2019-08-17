@@ -1,0 +1,10 @@
+{
+  "workbench.colorCustomizations": {},
+  "workbench.colorTheme": "Night Owl",
+  "workbench.iconTheme": "material-icon-theme",
+  "material-icon-theme.folders.color": "#26a69a",
+  "material-icon-theme.saturation": 0.6,
+  "eslint.autoFixOnSave": false,
+  "eslint.enable": false,
+  "editor.formatOnSave": true
+}

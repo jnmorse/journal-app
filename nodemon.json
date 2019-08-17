@@ -1,0 +1,8 @@
+{
+  "ignore": [
+    "src/client.tsx",
+    "src/client/**/*.ts",
+    "src/client/**/*.tsx",
+    "*.test.js"
+  ]
+}

@@ -1,0 +1,30 @@
+.footer {
+  display: block;
+}
+
+.footer ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 150px 150px;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.footer li {
+  display: inline;
+}
+
+.footer a {
+  color: green;
+  margin: 0.4em;
+}
+
+.header {
+  font-family: Roboto, sans-serif;
+  font-size: 1.5em;
+}
+
+.text {
+  color: hsl(103, 79%, 25%);
+}
