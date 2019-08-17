@@ -22,13 +22,22 @@ npm install
 
 ### Setup
 
-Create an .env file in the base directory with the MongoDB URI.
+Create an .env file in the base directory with the MongoDB URI. You will also
+need to provide a cookie secret and another mongo uri for session store. You
+can copy the [sample.env](./docs/sample.env) file and change the values.
 
 ```env
-MONGODB_URI="mongodb://localhost/journal-app"
+MONGODB_URL="mongodb://localhost/journal-app"
+SESSION_URL="mongodb://localhost/journal-app"
+COOKIE_SECRET="mysecret"
 ```
 
 ### Run The App For Development
+
+**note**: The development build will not be server side rendered. This is
+instead using webpack-dev-server to proxy requests to the backend. In order to
+make sure the app is going to work as expected when deployed it is important to
+run the production build.
 
 ```bash
 npm run dev
@@ -37,7 +46,7 @@ npm run dev
 ### Run for Production
 
 ```bash
-npm start
+npm run build && npm start
 ```
 
 [1]: https://chingu.io/ 'Chingu'
