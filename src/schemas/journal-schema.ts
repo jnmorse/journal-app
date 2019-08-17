@@ -4,6 +4,7 @@ export interface JournalDocument extends Document {
   title: string;
   body: string;
   image: string;
+  private: boolean;
   category: string;
   tags: string[];
   created?: Date;
@@ -13,6 +14,7 @@ export interface JournalDocument extends Document {
 export const journalSchema = new Schema<JournalDocument>({
   title: { type: String, required: true },
   body: { type: String, required: true },
+  private: { type: Boolean, required: true },
   image: { type: String },
   category: { type: String },
   tags: [String],
