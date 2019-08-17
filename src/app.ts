@@ -5,7 +5,9 @@ import helmet from 'helmet';
 import { NextFunction } from 'connect';
 import { StaticRouterContext } from 'react-router';
 import passport from 'passport';
-import expressSession from 'express-session';
+import expressSession, { MemoryStore } from 'express-session';
+import mongoDBStore from 'connect-mongodb-session';
+import dotenv from 'dotenv';
 
 import { reactRenderer } from './middleware/react-renderer';
 import { userRoutes } from './api-routes/user-routes';
@@ -13,6 +15,9 @@ import { reduxStoreMiddleware } from './middleware/redux-store';
 import { Reducers } from './client/reducers';
 
 const app: Application = express();
+
+const MongoStore = mongoDBStore(expressSession);
+dotenv.config();
 
 const notTestEnv = process.env.NODE_ENV !== 'test';
 const isDevelopment = process.env.NODE_ENV === 'development';
@@ -24,15 +29,20 @@ app.use([
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7
     },
-    secret: 'MySecret',
+    store: new MongoStore({
+      uri: process.env.SESSION_URL || '',
+      collection: 'sessions'
+    }),
+    secret: process.env.COOKIE_SECRET || 'MySecret',
     resave: true,
     saveUninitialized: true
   }),
-  passport.initialize(),
-  passport.session(),
   helmet(),
   compression()
 ]);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 if (notTestEnv && isDevelopment) {
   app.use(morgan('dev'));
