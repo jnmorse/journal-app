@@ -1,10 +1,30 @@
 import { Request, Response, NextFunction } from 'express';
 import 'dotenv/config';
 
-import { User } from '../schemas/user-schema';
+import { User, UserDocument } from '../schemas/user-schema';
+
+export const currentUser = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void | Response => {
+  const user: UserDocument | undefined = req.user;
+
+  if (user) {
+    return res.json({
+      id: user.id,
+      email: user.email,
+      created: user.created,
+      updated: user.updated
+    });
+  }
+
+  return next();
+};
 
 export const signin = (req: Request, res: Response): void => {
-  res.status(200).send(req.user);
+  const { id, email, created, updated } = req.user;
+  res.status(200).json({ id, email, created, updated });
 };
 
 export const signup = async (

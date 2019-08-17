@@ -1,8 +1,10 @@
 import React, { Component, FormEvent, ChangeEvent } from 'react';
+import { Redirect } from 'react-router-dom';
 
 import { container } from '../../styles/container.css';
 import { form } from './signup.css';
-import axios from 'axios';
+import { StateProps, DispatchProps } from './index';
+import { StatusCode } from '../../components/StatusCode';
 
 interface SigninState {
   email: string;
@@ -10,16 +12,27 @@ interface SigninState {
   error: string | null;
 }
 
-export class Signin extends Component<{}, SigninState, null> {
+type SigninProps = StateProps & DispatchProps;
+
+export class Signin extends Component<SigninProps, SigninState, null> {
   public state = {
     email: '',
     password: '',
-    confirmPassword: '',
     error: null
   };
 
   public render() {
-    const { email, password, confirmPassword, error } = this.state;
+    console.log('signin props', this.props);
+    const { email, password, error } = this.state;
+    const { user } = this.props;
+
+    if (user && user.id) {
+      return (
+        <StatusCode code={301}>
+          <Redirect to="/" />
+        </StatusCode>
+      );
+    }
 
     return (
       <form className={[container, form].join(' ')} onSubmit={this.submitForm}>
@@ -65,15 +78,8 @@ export class Signin extends Component<{}, SigninState, null> {
       return this.setState({ error: 'Email is Required' });
     }
 
-    this.testSignin();
+    this.props.signinUser({ email, password });
   };
-
-  private async testSignin(): Promise<void> {
-    const { email, password } = this.state;
-    const response = await axios.post('/api/signin', { email, password });
-
-    console.log(response.data);
-  }
 
   private updateValue = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;

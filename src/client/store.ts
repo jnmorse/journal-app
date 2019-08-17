@@ -1,14 +1,13 @@
-import {
-  createStore,
-  applyMiddleware,
-  compose,
-  Store,
-  Middleware
-} from 'redux';
-import thunk, { ThunkMiddleware, ThunkDispatch } from 'redux-thunk';
+import { createStore, applyMiddleware, Store } from 'redux';
+import thunk, { ThunkMiddleware } from 'redux-thunk';
 
 import { Reducers, StoreState } from './reducers';
 import { UserActions } from './actions';
+import axios, { AxiosInstance } from 'axios';
+
+const api = axios.create({
+  baseURL: '/api'
+});
 
 export function getStore(
   initialState: StoreState
@@ -16,6 +15,8 @@ export function getStore(
   return createStore(
     Reducers,
     initialState,
-    applyMiddleware<ThunkMiddleware<StoreState, UserActions, {}>>(thunk)
+    applyMiddleware<ThunkMiddleware<StoreState, UserActions, AxiosInstance>>(
+      thunk.withExtraArgument(api)
+    )
   );
 }

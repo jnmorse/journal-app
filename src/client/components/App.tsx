@@ -3,10 +3,10 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Provider } from 'react-redux';
 
-import { Home } from '../pages/Home';
+import Home from '../pages/Home';
 import { NotFound } from '../pages/NotFound';
 import { Signup } from '../pages/Signup';
-import { Signin } from '../pages/Signin';
+import { ConnectedSignin } from '../pages/Signin';
 
 import favicon from '../images/quill.png';
 
@@ -27,7 +27,7 @@ export class App extends Component {
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/signup" component={Signup} />
-            <Route path="/signin" component={Signin} />
+            <Route path="/signin" component={ConnectedSignin} />
             <Route status={404} component={NotFound} />
           </Switch>
         </main>

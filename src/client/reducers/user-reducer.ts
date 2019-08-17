@@ -1,17 +1,24 @@
 import { UserActions, ActionTypes } from '../actions';
 
 export interface UserReducerState {
-  token: string;
-  isAuthorized: boolean;
+  id: string;
+  email: string;
+  created: string;
+  updated: string;
 }
 
 export const userReducer = (
-  state: UserReducerState = { token: '', isAuthorized: false },
+  state: UserReducerState = { id: '', email: '', created: '', updated: '' },
   action: UserActions
 ): UserReducerState => {
+  console.log(action.type);
   switch (action.type) {
+    case ActionTypes.Current_User: {
+      return action.payload;
+    }
+
     case ActionTypes.Signin_Success: {
-      return { isAuthorized: true, token: action.payload };
+      return action.payload;
     }
 
     default: {

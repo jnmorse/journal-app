@@ -7,7 +7,7 @@ import { getStore } from './store';
 import { StoreState } from './reducers';
 
 let initState: StoreState = {
-  user: { isAuthorized: false, token: '' }
+  user: { id: '', email: '', created: '', updated: '' }
 };
 
 declare global {

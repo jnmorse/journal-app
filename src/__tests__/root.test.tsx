@@ -5,9 +5,11 @@ import request from 'supertest';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter as Router } from 'react-router-dom';
 import { minify } from 'html-minifier';
+import { Provider } from 'react-redux';
 
 import { app } from '../app';
 import { App } from '../client/components/App';
+import { getStore } from '../client/store';
 
 let mongoServer: MongoMemoryServer;
 
@@ -34,9 +36,15 @@ describe('server tests', () => {
     const mainScriptTag: RegExp = /<script src="\/?js\/main\.[a-z0-9]+\.js"><\/script>/gu;
 
     const appString: string = renderToString(
-      <Router location="/" context={context}>
-        <App />
-      </Router>
+      <Provider
+        store={getStore({
+          user: { id: '', email: '', created: '', updated: '' }
+        })}
+      >
+        <Router location="/" context={context}>
+          <App />
+        </Router>
+      </Provider>
     );
 
     // the status should be 200
