@@ -11,14 +11,13 @@ export const userReducer = (
   state: UserReducerState = { id: '', email: '', created: '', updated: '' },
   action: UserActions
 ): UserReducerState => {
-  console.log(action.type);
   switch (action.type) {
     case ActionTypes.Current_User: {
       return action.payload;
     }
 
     case ActionTypes.Signin_Success: {
-      return action.payload;
+      return state;
     }
 
     default: {

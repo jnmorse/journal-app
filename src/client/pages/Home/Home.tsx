@@ -1,26 +1,18 @@
 import React, { Component } from 'react';
 import { Link, RouteProps } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { ThunkDispatch, ThunkAction } from 'redux-thunk';
-import { AxiosInstance } from 'axios';
 
 import { container } from '../../styles/container.css';
 import { header, text, footer } from './home.css';
 import image from '../../images/quill-svgrepo-com.svg';
-import { getCurrentUser, CurrentUserAction, User } from '../../actions';
-import { StoreState } from '../../reducers';
+import { DispatchProps, StateProps } from './index';
 
-interface HomeProps extends RouteProps {
-  user: User;
-}
+type HomeProps = RouteProps & DispatchProps & StateProps;
 
-interface DispatchProps {
-  getCurrentUser: () => Promise<void>;
-}
-
-export class Home extends Component<RouteProps & DispatchProps & HomeProps> {
+export class Home extends Component<HomeProps> {
   public componentDidMount() {
-    this.props.getCurrentUser();
+    if (!this.props.user.id) {
+      this.props.getCurrentUser();
+    }
   }
 
   public renderLinks(): JSX.Element {
@@ -64,22 +56,3 @@ export class Home extends Component<RouteProps & DispatchProps & HomeProps> {
     );
   }
 }
-
-const mapDispatchToProps = (
-  dispatch: ThunkDispatch<StoreState, AxiosInstance, CurrentUserAction>
-): DispatchProps => {
-  return {
-    getCurrentUser: async () => {
-      await dispatch(getCurrentUser());
-    }
-  };
-};
-
-function mapStateToProps({ user }: StoreState): HomeProps {
-  return { user };
-}
-
-export default connect<{}, DispatchProps, RouteProps, StoreState>(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home);

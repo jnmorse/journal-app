@@ -6,15 +6,35 @@ import { StoreState } from '../client/reducers';
 import { UserActions } from '../client/actions';
 
 export function reduxStoreMiddleware(reducers: Reducer): RequestHandler {
-  return (req: Request, res: Response, next: NextFunction): void => {
+  return async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
     const api: AxiosInstance = axios.create({
-      baseURL: '/api'
+      baseURL: 'http://localhost:3010/api'
     });
 
-    const store: Store<StoreState, UserActions> = createStore(
+    const user = req.user;
+
+    const store: Store<StoreState, UserActions> = createStore<
+      StoreState,
+      UserActions,
+      any,
+      any
+    >(
       reducers,
-      {},
-      applyMiddleware(thunk)
+      user
+        ? {
+            user: {
+              id: user.id,
+              email: user.email,
+              created: user.created,
+              updated: user.updated
+            }
+          }
+        : {},
+      applyMiddleware(thunk.withExtraArgument(api))
     );
 
     res.locals.store = store;

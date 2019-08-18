@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { App } from './components/App';
 import { getStore } from './store';
 import { StoreState } from './reducers';
+import { ActionTypes } from './actions';
 
 let initState: StoreState = {
   user: { id: '', email: '', created: '', updated: '' }
@@ -19,11 +20,14 @@ declare global {
 if (typeof window !== 'undefined') {
   initState = window.initState;
 }
+const store = getStore(initState);
 
-export const Root = () => (
-  <Provider store={getStore(initState)}>
-    <Router>
-      <App />
-    </Router>
-  </Provider>
-);
+export const Root = () => {
+  return (
+    <Provider store={store}>
+      <Router>
+        <App />
+      </Router>
+    </Provider>
+  );
+};

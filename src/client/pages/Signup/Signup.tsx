@@ -2,6 +2,9 @@ import React, { Component, FormEvent, ChangeEvent } from 'react';
 
 import { container } from '../../styles/container.css';
 import { form } from './signup.css';
+import { StateProps, DispatchProps } from './index';
+import { StatusCode } from '../../components/StatusCode';
+import { Redirect } from 'react-router';
 
 interface SignupState {
   email: string;
@@ -10,7 +13,11 @@ interface SignupState {
   error: string | null;
 }
 
-export class Signup extends Component<{}, SignupState, null> {
+export class Signup extends Component<
+  StateProps & DispatchProps,
+  SignupState,
+  null
+> {
   public state = {
     email: '',
     password: '',
@@ -19,10 +26,23 @@ export class Signup extends Component<{}, SignupState, null> {
   };
 
   public render() {
+    if (this.props.user.id) {
+      return (
+        <StatusCode code={301}>
+          <Redirect to="/" />
+        </StatusCode>
+      );
+    }
+
     const { email, password, confirmPassword, error } = this.state;
 
     return (
-      <form className={[container, form].join(' ')} onSubmit={this.submitForm}>
+      <form
+        action="/api/signup"
+        method="post"
+        className={[container, form].join(' ')}
+        onSubmit={this.submitForm}
+      >
         <header>
           <h1>Signup</h1>
           {typeof error === 'string' ? <p>{error}</p> : null}
@@ -31,7 +51,7 @@ export class Signup extends Component<{}, SignupState, null> {
         <div>
           <label htmlFor="email">Email:</label>
           <input
-            type="text"
+            type="email"
             id="email"
             value={email}
             name="email"
@@ -72,6 +92,8 @@ export class Signup extends Component<{}, SignupState, null> {
     } else if (password !== confirmPassword) {
       return this.setState({ error: 'Passwords do not match' });
     }
+
+    this.props.signupUser({ email, password });
   };
 
   private updateValue = (event: ChangeEvent<HTMLInputElement>): void => {

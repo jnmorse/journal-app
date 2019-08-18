@@ -1,6 +1,6 @@
 import { RouteProps } from 'react-router';
 
-import { Home } from './pages/Home';
+import Home from './pages/Home';
 
 const routes = new Map<string, RouteProps>();
 

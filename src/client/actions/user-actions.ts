@@ -5,14 +5,15 @@ import {
   CurrentUserAction,
   UserError,
   SigninSuccessAction,
-  SigninFailAction
+  SigninFailAction,
+  SignupSuccessAction,
+  SignupFailAction
 } from './types';
 import { AxiosInstance } from 'axios';
 import { User } from './interfaces';
-import { DeepPartial } from 'redux';
 
 export function getCurrentUser(): ThunkAction<
-  Promise<void>,
+  Promise<CurrentUserAction | UserError>,
   StoreState,
   AxiosInstance,
   CurrentUserAction | UserError
@@ -21,12 +22,15 @@ export function getCurrentUser(): ThunkAction<
     try {
       const response = await api.get<User>('/current_user');
 
-      dispatch({
+      return dispatch({
         type: ActionTypes.Current_User,
         payload: response.data
       });
     } catch (error) {
-      dispatch({ type: ActionTypes.User_Error, payload: 'Not Logged in' });
+      return dispatch({
+        type: ActionTypes.User_Error,
+        payload: 'Not Logged in'
+      });
     }
   };
 }
@@ -50,8 +54,7 @@ export function signinUser(
 
       if (response.status === 200) {
         return dispatch({
-          type: ActionTypes.Signin_Success,
-          payload: response.data
+          type: ActionTypes.Signin_Success
         });
       }
 
@@ -62,6 +65,38 @@ export function signinUser(
     } catch (error) {
       return dispatch({
         type: ActionTypes.Signin_Fail,
+        payload: error
+      });
+    }
+  };
+}
+
+export function signupUser(
+  user: CreateUser
+): ThunkAction<
+  Promise<SignupSuccessAction | SignupFailAction>,
+  StoreState,
+  AxiosInstance,
+  SignupSuccessAction | SignupFailAction
+> {
+  return async (dispatch, getState, api) => {
+    try {
+      const response = await api.post<User>('/signup', user);
+
+      if (response.status === 200) {
+        return dispatch({
+          type: ActionTypes.Signup_Success,
+          payload: response.data
+        });
+      }
+
+      return dispatch({
+        type: ActionTypes.Signup_Fail,
+        payload: 'Was not able to signin'
+      });
+    } catch (error) {
+      return dispatch({
+        type: ActionTypes.Signup_Fail,
         payload: error
       });
     }

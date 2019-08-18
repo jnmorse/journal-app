@@ -23,8 +23,10 @@ export const currentUser = (
 };
 
 export const signin = (req: Request, res: Response): void => {
-  const { id, email, created, updated } = req.user;
-  res.status(200).json({ id, email, created, updated });
+  if (!req.user) {
+    return res.redirect('/signin');
+  }
+  return res.redirect('/');
 };
 
 export const signup = async (

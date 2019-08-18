@@ -67,7 +67,6 @@ export function reactRenderer(): RequestHandler {
     </html>
     `;
 
-    console.log(context);
     // res.locals apparently is the correct place to store this stuff
 
     res.locals.context = context;

@@ -1,5 +1,12 @@
 import { Signin } from './Signin';
-import { User, signinUser, CreateUser } from '../../actions';
+import {
+  User,
+  signinUser,
+  CreateUser,
+  UserActions,
+  SigninSuccessAction,
+  SigninFailAction
+} from '../../actions';
 import { connect } from 'react-redux';
 import { StoreState } from '../../reducers';
 import { ThunkDispatch } from 'redux-thunk';
@@ -10,7 +17,9 @@ export interface StateProps {
 }
 
 export interface DispatchProps {
-  signinUser: (user: CreateUser) => Promise<void>;
+  signinUser: (
+    user: CreateUser
+  ) => Promise<SigninSuccessAction | SigninFailAction>;
 }
 
 function mapStateToProps({ user }: StoreState): StateProps {
@@ -18,11 +27,11 @@ function mapStateToProps({ user }: StoreState): StateProps {
 }
 
 function mapDispatchToProps(
-  dispatch: ThunkDispatch<StoreState, AxiosInstance, any>
+  dispatch: ThunkDispatch<StoreState, AxiosInstance, UserActions>
 ): DispatchProps {
   return {
     signinUser: async (user: CreateUser) => {
-      await dispatch(signinUser(user));
+      return await dispatch(signinUser(user));
     }
   };
 }

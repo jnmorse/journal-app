@@ -3,7 +3,10 @@ import { Request, Response, NextFunction } from 'express';
 
 import '../services/passport';
 
-export const requireLogin = passport.authenticate('local');
+export const requireLogin = passport.authenticate('local', {
+  failureRedirect: '/signin'
+});
+
 export const requireAuth = (
   req: Request,
   res: Response,

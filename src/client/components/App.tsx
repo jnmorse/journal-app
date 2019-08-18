@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 
 import Home from '../pages/Home';
 import { NotFound } from '../pages/NotFound';
-import { Signup } from '../pages/Signup';
+import { ConnectedSignup } from '../pages/Signup';
 import { ConnectedSignin } from '../pages/Signin';
 
 import favicon from '../images/quill.png';
@@ -26,7 +26,7 @@ export class App extends Component {
         <main>
           <Switch>
             <Route path="/" exact component={Home} />
-            <Route path="/signup" component={Signup} />
+            <Route path="/signup" component={ConnectedSignup} />
             <Route path="/signin" component={ConnectedSignin} />
             <Route status={404} component={NotFound} />
           </Switch>
