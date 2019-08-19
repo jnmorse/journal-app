@@ -1,10 +1,9 @@
 import React, { Component, FormEvent, ChangeEvent } from 'react';
 
-import { container } from '../../styles/container.css';
-import { form } from './signup.css';
 import { StateProps, DispatchProps } from './index';
 import { StatusCode } from '../../components/StatusCode';
 import { Redirect } from 'react-router';
+import { Layout } from '../../components/Layout';
 
 interface SignupState {
   email: string;
@@ -37,48 +36,45 @@ export class Signup extends Component<
     const { email, password, confirmPassword, error } = this.state;
 
     return (
-      <form
-        action="/api/signup"
-        method="post"
-        className={[container, form].join(' ')}
-        onSubmit={this.submitForm}
-      >
-        <header>
-          <h1>Signup</h1>
-          {typeof error === 'string' ? <p>{error}</p> : null}
-        </header>
+      <Layout>
+        <form action="/api/signup" method="post" onSubmit={this.submitForm}>
+          <header>
+            <h1>Signup</h1>
+            {typeof error === 'string' ? <p>{error}</p> : null}
+          </header>
 
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            name="email"
-            onChange={this.updateValue}
-          />
-          <label htmlFor="password">Password:</label>
-          <input
-            id="password"
-            type="password"
-            name="password"
-            value={password}
-            onChange={this.updateValue}
-          />
-          <label htmlFor="confirm">Confirm Password:</label>
-          <input
-            id="confirm"
-            type="password"
-            name="confirmPassword"
-            onChange={this.updateValue}
-            value={confirmPassword}
-          />
-        </div>
+          <div>
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              name="email"
+              onChange={this.updateValue}
+            />
+            <label htmlFor="password">Password:</label>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              value={password}
+              onChange={this.updateValue}
+            />
+            <label htmlFor="confirm">Confirm Password:</label>
+            <input
+              id="confirm"
+              type="password"
+              name="confirmPassword"
+              onChange={this.updateValue}
+              value={confirmPassword}
+            />
+          </div>
 
-        <footer>
-          <button type="submit">Create User</button>
-        </footer>
-      </form>
+          <footer>
+            <button type="submit">Create User</button>
+          </footer>
+        </form>
+      </Layout>
     );
   }
 

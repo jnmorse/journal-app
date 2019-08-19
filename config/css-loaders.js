@@ -7,7 +7,6 @@ exports.cssLoaders = env => {
 
   return {
     test: /\.css$/u,
-    exclude: /node_modules/u,
     use: [
       isDevelopment
         ? {
@@ -20,11 +19,11 @@ exports.cssLoaders = env => {
       {
         loader: 'css-loader',
         options: {
-          sourceMap: true,
-          modules: {
+          sourceMap: true
+          /* modules: {
             mode: 'local',
             localIdentName: '[name]__[local]___[hash:base64:5]'
-          }
+          } */
         }
       },
       {

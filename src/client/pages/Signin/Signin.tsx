@@ -1,11 +1,11 @@
 import React, { Component, FormEvent, ChangeEvent } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { container } from '../../styles/container.css';
-import { form } from './signup.css';
 import { StateProps, DispatchProps } from './index';
 import { StatusCode } from '../../components/StatusCode';
 import { ActionTypes } from '../../actions';
+import { Layout } from '../../components/Layout';
+import { Container, Form } from 'react-bootstrap';
 
 interface SigninState {
   email: string;
@@ -37,40 +37,41 @@ export class Signin extends Component<SigninProps, SigninState, null> {
     }
 
     return (
-      <form
-        method="post"
-        action="/api/signin"
-        className={[container, form].join(' ')}
-        onSubmit={this.submitForm}
-      >
-        <header>
-          <h1>Signin</h1>
-          {typeof error === 'string' ? <p>{error}</p> : null}
-        </header>
+      <Layout>
+        <Container>
+          <Form method="post" action="/api/signin" onSubmit={this.submitForm}>
+            <header>
+              <h1>Signin</h1>
+              {typeof error === 'string' ? <p>{error}</p> : null}
+            </header>
 
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            name="email"
-            onChange={this.updateValue}
-          />
-          <label htmlFor="password">Password:</label>
-          <input
-            id="password"
-            type="password"
-            name="password"
-            value={password}
-            onChange={this.updateValue}
-          />
-        </div>
+            <div>
+              <Form.Group controlId="email">
+                <Form.Label>Email:</Form.Label>
+                <Form.Control
+                  name="email"
+                  onChange={this.updateValue}
+                  value={email}
+                  type="email"
+                  placeholder="someone@somewhere.com"
+                />
+              </Form.Group>
+              <label htmlFor="password">Password:</label>
+              <input
+                id="password"
+                type="password"
+                name="password"
+                value={password}
+                onChange={this.updateValue}
+              />
+            </div>
 
-        <footer>
-          <button type="submit">Signin</button>
-        </footer>
-      </form>
+            <footer>
+              <button type="submit">Signin</button>
+            </footer>
+          </Form>
+        </Container>
+      </Layout>
     );
   }
 
@@ -94,7 +95,8 @@ export class Signin extends Component<SigninProps, SigninState, null> {
     });
   };
 
-  private updateValue = (event: ChangeEvent<HTMLInputElement>): void => {
+  private updateValue = (event: any): void => {
+    console.log(event.target.name);
     const { name, value } = event.target;
     this.setState(prevState => {
       if (prevState.hasOwnProperty(name)) {
