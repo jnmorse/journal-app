@@ -19,3 +19,12 @@ export async function createJournalEntry(
     res.status(422).send(req.body);
   }
 }
+
+export async function getJournalEntries(
+  req: Request,
+  res: Response
+): Promise<void> {
+  const entries = await Journal.find();
+
+  res.json(entries);
+}

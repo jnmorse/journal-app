@@ -1,13 +1,16 @@
 import { Router } from 'express';
 import { requireAuth } from '../middleware/passport-middleware';
-import { createJournalEntry } from '../controllers/journal-controllers';
+import {
+  createJournalEntry,
+  getJournalEntries
+} from '../controllers/journal-controllers';
 
 const JournalRoutes = Router();
 
 /**
  * Get all journal entries
  */
-JournalRoutes.get('/journals');
+JournalRoutes.get('/journals', getJournalEntries);
 
 /**
  * Create journal entry
