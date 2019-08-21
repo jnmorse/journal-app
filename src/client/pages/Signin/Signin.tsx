@@ -5,7 +5,7 @@ import { StateProps, DispatchProps } from './index';
 import { StatusCode } from '../../components/StatusCode';
 import { ActionTypes } from '../../actions';
 import { Layout } from '../../components/Layout';
-import { Container, Form } from 'react-bootstrap';
+import { Container, Form, Button, Alert } from 'react-bootstrap';
 
 interface SigninState {
   email: string;
@@ -24,11 +24,21 @@ export class Signin extends Component<SigninProps, SigninState, null> {
     success: false
   };
 
+  public renderError() {
+    const { error } = this.state;
+
+    if (!error) {
+      return null;
+    }
+
+    return <Alert variant="danger">{error}</Alert>;
+  }
+
   public render() {
     const { email, password, error, success } = this.state;
     const { user } = this.props;
 
-    if (success) {
+    if (success || user.id) {
       return (
         <StatusCode code={301}>
           <Redirect to="/" />
@@ -42,8 +52,9 @@ export class Signin extends Component<SigninProps, SigninState, null> {
           <Form method="post" action="/api/signin" onSubmit={this.submitForm}>
             <header>
               <h1>Signin</h1>
-              {typeof error === 'string' ? <p>{error}</p> : null}
             </header>
+
+            {this.renderError()}
 
             <div>
               <Form.Group controlId="email">
@@ -56,18 +67,22 @@ export class Signin extends Component<SigninProps, SigninState, null> {
                   placeholder="someone@somewhere.com"
                 />
               </Form.Group>
-              <label htmlFor="password">Password:</label>
-              <input
-                id="password"
-                type="password"
-                name="password"
-                value={password}
-                onChange={this.updateValue}
-              />
+
+              <Form.Group controlId="password">
+                <Form.Label>Password:</Form.Label>
+                <Form.Control
+                  type="password"
+                  name="password"
+                  value={password}
+                  onChange={this.updateValue}
+                />
+              </Form.Group>
             </div>
 
             <footer>
-              <button type="submit">Signin</button>
+              <Button color="primary" type="submit">
+                Signin
+              </Button>
             </footer>
           </Form>
         </Container>
@@ -95,8 +110,7 @@ export class Signin extends Component<SigninProps, SigninState, null> {
     });
   };
 
-  private updateValue = (event: any): void => {
-    console.log(event.target.name);
+  private updateValue = (event: ChangeEvent<any>): void => {
     const { name, value } = event.target;
     this.setState(prevState => {
       if (prevState.hasOwnProperty(name)) {

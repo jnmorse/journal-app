@@ -1,4 +1,5 @@
 import React, { Component, FormEvent, ChangeEvent } from 'react';
+import { Form, Container, Button, Alert } from 'react-bootstrap';
 
 import { StateProps, DispatchProps } from './index';
 import { StatusCode } from '../../components/StatusCode';
@@ -24,6 +25,16 @@ export class Signup extends Component<
     error: null
   };
 
+  public renderError() {
+    const { error } = this.state;
+
+    if (!error) {
+      return null;
+    }
+
+    return <Alert variant="danger">{error}</Alert>;
+  }
+
   public render() {
     if (this.props.user.id) {
       return (
@@ -37,43 +48,60 @@ export class Signup extends Component<
 
     return (
       <Layout>
-        <form action="/api/signup" method="post" onSubmit={this.submitForm}>
-          <header>
-            <h1>Signup</h1>
-            {typeof error === 'string' ? <p>{error}</p> : null}
-          </header>
+        <Container>
+          <Form
+            action="/api/signup"
+            method="post"
+            onSubmit={this.submitForm}
+            autoComplete="off"
+          >
+            <header>
+              <h1>Signup</h1>
+              {this.renderError()}
+            </header>
 
-          <div>
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              name="email"
-              onChange={this.updateValue}
-            />
-            <label htmlFor="password">Password:</label>
-            <input
-              id="password"
-              type="password"
-              name="password"
-              value={password}
-              onChange={this.updateValue}
-            />
-            <label htmlFor="confirm">Confirm Password:</label>
-            <input
-              id="confirm"
-              type="password"
-              name="confirmPassword"
-              onChange={this.updateValue}
-              value={confirmPassword}
-            />
-          </div>
+            <Form.Group controlId="email">
+              <Form.Label>Email:</Form.Label>
+              <Form.Control
+                as="input"
+                type="email"
+                value={email}
+                required
+                name="email"
+                onChange={this.updateValue}
+              />
+            </Form.Group>
 
-          <footer>
-            <button type="submit">Create User</button>
-          </footer>
-        </form>
+            <Form.Group controlId="password">
+              <Form.Label>Password:</Form.Label>
+              <Form.Control
+                as="input"
+                type="password"
+                name="password"
+                required
+                value={password}
+                onChange={this.updateValue}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="confirmPassword">
+              <Form.Label>Confirm Password:</Form.Label>
+              <Form.Control
+                type="password"
+                name="confirmPassword"
+                onChange={this.updateValue}
+                required
+                value={confirmPassword}
+              />
+            </Form.Group>
+
+            <footer>
+              <Button color="primary" type="submit">
+                Create User
+              </Button>
+            </footer>
+          </Form>
+        </Container>
       </Layout>
     );
   }
@@ -92,7 +120,7 @@ export class Signup extends Component<
     this.props.signupUser({ email, password });
   };
 
-  private updateValue = (event: ChangeEvent<HTMLInputElement>): void => {
+  private updateValue = (event: ChangeEvent<any>): void => {
     const { name, value } = event.target;
     this.setState(prevState => {
       if (prevState.hasOwnProperty(name)) {

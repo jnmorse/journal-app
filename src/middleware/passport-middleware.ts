@@ -12,9 +12,9 @@ export const requireAuth = (
   res: Response,
   next: NextFunction
 ): void => {
-  if (req.user) {
+  if (req.isAuthenticated()) {
     return next();
   }
 
-  return next('Authentication required');
+  res.sendStatus(401);
 };

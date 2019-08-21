@@ -9,6 +9,7 @@ type SiteNavProps = StateProps & RouteComponentProps<any>;
 
 export class SiteNav extends Component<SiteNavProps> {
   public render() {
+    const { user } = this.props;
     return (
       <Navbar bg="dark" variant="dark" expand="sm">
         <Navbar.Brand as={Link} to="/" href="/">
@@ -23,11 +24,12 @@ export class SiteNav extends Component<SiteNavProps> {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
+            {user.id ? <Nav.Link href="/api/signout">Signout</Nav.Link> : null}
             <Nav.Link
               as={Link}
               href="/signin"
               to="/signin"
-              active={matchPath('/signin', this.props.match) ? true : false}
+              active={'/signin' === this.props.match.path}
             >
               Signin
             </Nav.Link>
@@ -35,7 +37,7 @@ export class SiteNav extends Component<SiteNavProps> {
               as={Link}
               href="/signup"
               to="/signup"
-              active={matchPath('/signup', this.props.match) ? true : false}
+              active={'/signup' === this.props.match.path}
             >
               Signup
             </Nav.Link>
