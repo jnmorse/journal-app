@@ -3,11 +3,7 @@ import 'dotenv/config';
 
 import { User, UserDocument } from '../schemas/user-schema';
 
-export const currentUser = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void | Response => {
+export const currentUser = (req: Request, res: Response): void | Response => {
   const user: UserDocument | undefined = req.user;
 
   if (user) {
@@ -19,7 +15,7 @@ export const currentUser = (
     });
   }
 
-  return next();
+  return res.send(false);
 };
 
 export const signin = (req: Request, res: Response): void => {

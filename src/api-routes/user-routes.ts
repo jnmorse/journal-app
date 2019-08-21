@@ -7,7 +7,7 @@ const userRoutes = Router();
 
 userRoutes.post('/signin', requireLogin, signin);
 userRoutes.post('/signup', signup);
-userRoutes.get('/current_user', requireAuth, currentUser);
+userRoutes.get('/current_user', currentUser);
 userRoutes.get('/signout', (req, res) => {
   req.logout();
   res.redirect('/');

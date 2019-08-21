@@ -20,7 +20,14 @@ export function getCurrentUser(): ThunkAction<
 > {
   return async (dispatch, getState, api) => {
     try {
-      const response = await api.get<User>('/current_user');
+      const response = await api.get<User | false>('/current_user');
+
+      if (!response.data) {
+        return dispatch({
+          type: ActionTypes.User_Error,
+          payload: 'Not Logged in'
+        });
+      }
 
       return dispatch({
         type: ActionTypes.Current_User,
