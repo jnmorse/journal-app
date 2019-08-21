@@ -13,6 +13,7 @@ import { reactRenderer } from './middleware/react-renderer';
 import { userRoutes } from './api-routes/user-routes';
 import { reduxStoreMiddleware } from './middleware/redux-store';
 import { Reducers } from './client/reducers';
+import { JournalRoutes } from './api-routes/journal-routes';
 
 const app: Application = express();
 
@@ -58,6 +59,7 @@ app.get(
 );
 
 app.use('/api', userRoutes);
+app.use('/api', JournalRoutes);
 
 app.use(
   (
