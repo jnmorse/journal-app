@@ -38,7 +38,8 @@ describe('server tests', () => {
     const appString: string = renderToString(
       <Provider
         store={getStore({
-          user: { id: '', email: '', created: '', updated: '' }
+          user: { id: '', email: '', created: '', updated: '' },
+          journals: []
         })}
       >
         <Router location="/" context={context}>

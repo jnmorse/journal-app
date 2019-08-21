@@ -24,7 +24,11 @@ export async function getJournalEntries(
   req: Request,
   res: Response
 ): Promise<void> {
-  const entries = await Journal.find();
+  const { limit = 10, offset = 0 } = req.query;
+  const entries = await Journal.find({}, null, {
+    limit: Number(limit),
+    skip: Number(offset)
+  });
 
   res.json(entries);
 }

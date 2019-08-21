@@ -11,7 +11,8 @@ import jquery from 'jquery';
 import 'bootstrap/dist/js/bootstrap';
 
 let initState: StoreState = {
-  user: { id: '', email: '', created: '', updated: '' }
+  user: { id: '', email: '', created: '', updated: '' },
+  journals: []
 };
 
 declare global {

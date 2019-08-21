@@ -12,6 +12,9 @@ export class SiteNav extends Component<SiteNavProps> {
     const { user } = this.props;
     return (
       <Navbar bg="dark" variant="dark" expand="sm">
+        <header className="sr-only">
+          <h2>Site Navigation</h2>
+        </header>
         <Navbar.Brand as={Link} to="/" href="/">
           <img
             src={image}
@@ -19,7 +22,7 @@ export class SiteNav extends Component<SiteNavProps> {
             height="30"
             style={{ marginRight: 10 }}
           />
-          {'Digital Journal'}
+          <h2 style={{ display: 'inline' }}>Digital Journal</h2>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
