@@ -7,9 +7,15 @@ import image from '../../images/quill-svgrepo-com.svg';
 
 type SiteNavProps = StateProps & RouteComponentProps<any>;
 
+import { SignedOutLinks } from './SignedOutLinks';
+import { SignedInLinks } from './SignedInLinks';
+
 export class SiteNav extends Component<SiteNavProps> {
   public render() {
-    const { user } = this.props;
+    const {
+      user,
+      match: { path }
+    } = this.props;
     return (
       <Navbar bg="dark" variant="dark" expand="sm">
         <header className="sr-only">
@@ -27,23 +33,14 @@ export class SiteNav extends Component<SiteNavProps> {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
-            {user.id ? <Nav.Link href="/api/signout">Signout</Nav.Link> : null}
-            <Nav.Link
-              as={Link}
-              href="/signin"
-              to="/signin"
-              active={'/signin' === this.props.match.path}
-            >
-              Signin
+            <Nav.Link as={Link} to="/posts">
+              Posts
             </Nav.Link>
-            <Nav.Link
-              as={Link}
-              href="/signup"
-              to="/signup"
-              active={'/signup' === this.props.match.path}
-            >
-              Signup
-            </Nav.Link>
+            {user.id ? (
+              <SignedInLinks path={path} />
+            ) : (
+              <SignedOutLinks path={path} />
+            )}
           </Nav>
         </Navbar.Collapse>
       </Navbar>

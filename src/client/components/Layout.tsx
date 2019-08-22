@@ -17,7 +17,7 @@ export const Layout = ({
     </header>
     <SiteNav />
 
-    <main style={{ marginTop: '0.5em' }}>{children}</main>
+    <main>{children}</main>
 
     <footer>&copy; 2019; Joseph Morse; MIT</footer>
   </React.Fragment>
