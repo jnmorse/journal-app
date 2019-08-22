@@ -12,9 +12,6 @@ export const Layout = ({
   title = 'Digital Journal'
 }: LayoutProps): JSX.Element => (
   <React.Fragment>
-    <header className="sr-only">
-      <h1>{title}</h1>
-    </header>
     <SiteNav />
 
     <main>{children}</main>
