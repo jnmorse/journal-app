@@ -10,7 +10,7 @@ import serializeJavascript from 'serialize-javascript';
 
 import { App } from '../client/components/App';
 import { StoreState } from 'src/client/reducers';
-import { UserActions } from 'src/client/actions';
+import { Actions } from 'src/client/actions';
 
 export function reactRenderer(): RequestHandler {
   return (req: Request, res: Response, next: NextFunction): void => {
@@ -19,7 +19,7 @@ export function reactRenderer(): RequestHandler {
     const helmet = Helmet.renderStatic();
     const context = {};
 
-    const { store }: { store: Store<StoreState, UserActions> } = res.locals;
+    const { store }: { store: Store<StoreState, Actions> } = res.locals;
 
     const HtmlHead = () => (
       <head>

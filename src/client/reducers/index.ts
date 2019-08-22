@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { userReducer, UserReducerState } from './user-reducer';
-import { UserActions, JournalEntry } from '../actions';
+import { JournalEntry, Actions } from '../actions';
 import { journalReducer } from './journal-reducer';
 
 export interface StoreState {
@@ -8,7 +8,7 @@ export interface StoreState {
   journals: JournalEntry[];
 }
 
-export const Reducers = combineReducers<StoreState, UserActions>({
+export const Reducers = combineReducers<StoreState, Actions>({
   user: userReducer,
   journals: journalReducer
 });

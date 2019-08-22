@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import axios, { AxiosInstance } from 'axios';
 import { StoreState } from '../client/reducers';
-import { UserActions } from '../client/actions';
+import { Actions } from '../client/actions';
 
 export function reduxStoreMiddleware(reducers: Reducer): RequestHandler {
   return async (
@@ -17,9 +17,9 @@ export function reduxStoreMiddleware(reducers: Reducer): RequestHandler {
 
     const user = req.user;
 
-    const store: Store<StoreState, UserActions> = createStore<
+    const store: Store<StoreState, Actions> = createStore<
       StoreState,
-      UserActions,
+      Actions,
       any,
       any
     >(

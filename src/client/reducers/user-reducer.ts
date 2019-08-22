@@ -1,4 +1,4 @@
-import { UserActions, ActionTypes } from '../actions';
+import { ActionTypes, Actions } from '../actions';
 
 export interface UserReducerState {
   id: string;
@@ -9,7 +9,7 @@ export interface UserReducerState {
 
 export const userReducer = (
   state: UserReducerState = { id: '', email: '', created: '', updated: '' },
-  action: UserActions
+  action: Actions
 ): UserReducerState => {
   switch (action.type) {
     case ActionTypes.Current_User: {

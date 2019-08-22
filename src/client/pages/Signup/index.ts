@@ -4,7 +4,7 @@ import { AxiosInstance } from 'axios';
 
 import { StoreState } from '../../reducers';
 import { Signup } from './Signup';
-import { User, CreateUser, signupUser } from '../../actions';
+import { User, CreateUser, signupUser, Actions } from '../../actions';
 
 export interface StateProps {
   user: User;
@@ -19,7 +19,7 @@ function mapStateToProps({ user }: StoreState): StateProps {
 }
 
 function mapDispatchToProps(
-  dispatch: ThunkDispatch<StoreState, AxiosInstance, any>
+  dispatch: ThunkDispatch<StoreState, AxiosInstance, Actions>
 ): DispatchProps {
   return {
     signupUser: async (user: CreateUser): Promise<void> => {

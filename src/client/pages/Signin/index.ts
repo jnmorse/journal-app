@@ -3,7 +3,7 @@ import {
   User,
   signinUser,
   CreateUser,
-  UserActions,
+  Actions,
   SigninSuccessAction,
   SigninFailAction
 } from '../../actions';
@@ -27,7 +27,7 @@ function mapStateToProps({ user }: StoreState): StateProps {
 }
 
 function mapDispatchToProps(
-  dispatch: ThunkDispatch<StoreState, AxiosInstance, UserActions>
+  dispatch: ThunkDispatch<StoreState, AxiosInstance, Actions>
 ): DispatchProps {
   return {
     signinUser: async (user: CreateUser) => {

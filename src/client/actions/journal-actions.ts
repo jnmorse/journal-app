@@ -1,7 +1,7 @@
 import { ThunkAction } from 'redux-thunk';
 import { StoreState } from '../reducers';
 import { AxiosInstance } from 'axios';
-import { Action } from 'redux';
+import { GetJournalEntriesAction, ActionTypes } from './types';
 
 export interface JournalEntry {
   id: string;
@@ -19,7 +19,12 @@ export interface JournalEntry {
 export function getJournalEntries(
   limit: number = 5,
   offset: number = 0
-): ThunkAction<Promise<void>, StoreState, AxiosInstance, Action> {
+): ThunkAction<
+  Promise<void>,
+  StoreState,
+  AxiosInstance,
+  GetJournalEntriesAction
+> {
   return async (dispatch, getState, api) => {
     const response = await api.get<JournalEntry[]>('/journals', {
       params: {
@@ -29,7 +34,7 @@ export function getJournalEntries(
     });
 
     dispatch({
-      type: 'GET_JOURNAL_ENTRIES',
+      type: ActionTypes.GetJournalEntries,
       payload: response.data
     });
   };

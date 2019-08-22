@@ -1,4 +1,5 @@
 import { User } from './interfaces';
+import { JournalEntry } from './journal-actions';
 
 export interface SigninSuccessAction {
   type: ActionTypes.Signin_Success;
@@ -29,18 +30,26 @@ export interface UserError {
   payload: any;
 }
 
+export interface GetJournalEntriesAction {
+  type: ActionTypes.GetJournalEntries;
+  payload: JournalEntry[];
+}
+
 export enum ActionTypes {
   User_Error = 'USER_ERROR',
   Signin_Success = 'SIGNIN_SUCCESS',
   Signin_Fail = 'SIGNIN_FAIL',
   Current_User = 'CURRENT_USER',
   Signup_Success = 'SIGNUP_SUCCESS',
-  Signup_Fail = 'SIGNUP_FAIL'
+  Signup_Fail = 'SIGNUP_FAIL',
+  GetJournalEntries = 'GET_JOURNAL_ENTRIES',
+  CreateJournalEntry = 'CREATE_JOURNAL_ENTRY'
 }
 
-export type UserActions =
+export type Actions =
   | SigninSuccessAction
   | SigninFailAction
   | CurrentUserAction
   | SignupSuccessAction
-  | SignupFailAction;
+  | SignupFailAction
+  | GetJournalEntriesAction;
