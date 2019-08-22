@@ -28,7 +28,7 @@ export class SiteNav extends Component<SiteNavProps> {
             height="30"
             style={{ marginRight: 10 }}
           />
-          <h2 style={{ display: 'inline' }}>Digital Journal</h2>
+          Digital Journal
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

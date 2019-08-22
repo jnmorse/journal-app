@@ -27,7 +27,7 @@ export class Home extends Component<HomeProps> {
     return (
       <Layout>
         <Jumbotron fluid as="header" style={{ textAlign: 'center' }}>
-          <img src={image} alt="image" width={200} />
+          <img src={image} alt="image" width={200} style={{ margin: 10 }} />
 
           <h2>Digital Journal</h2>
           <p>Organize all your content and ideas together in one place.</p>
