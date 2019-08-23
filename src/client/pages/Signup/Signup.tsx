@@ -5,6 +5,7 @@ import { StateProps, DispatchProps } from './index';
 import { StatusCode } from '../../components/StatusCode';
 import { Redirect } from 'react-router';
 import { Layout } from '../../components/Layout';
+import SEO from '../../components/SEO';
 
 interface SignupState {
   email: string;
@@ -48,6 +49,7 @@ export class Signup extends Component<
 
     return (
       <Layout>
+        <SEO title="Signup" description="Signup for Digital Journal" />
         <Container>
           <Form
             action="/api/signup"

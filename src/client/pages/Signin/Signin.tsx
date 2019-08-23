@@ -5,6 +5,7 @@ import { StateProps, DispatchProps } from './index';
 import { StatusCode } from '../../components/StatusCode';
 import { ActionTypes } from '../../actions';
 import { Layout } from '../../components/Layout';
+import SEO from '../../components/SEO';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 
 interface SigninState {
@@ -48,6 +49,7 @@ export class Signin extends Component<SigninProps, SigninState, null> {
 
     return (
       <Layout>
+        <SEO title="Signin" description="Signin to Digital Journal" />
         <Container>
           <Form method="post" action="/api/signin" onSubmit={this.submitForm}>
             <header>

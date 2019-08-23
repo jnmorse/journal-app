@@ -6,6 +6,7 @@ import { StatusCode } from '../../components/StatusCode';
 
 import { Layout } from '../../components/Layout';
 import { Container } from 'react-bootstrap';
+import SEO from '../../components/SEO';
 
 export interface NotFoundPropTypes {
   status: number;
@@ -14,10 +15,7 @@ export interface NotFoundPropTypes {
 export const NotFound = ({ status }: NotFoundPropTypes): JSX.Element => {
   return (
     <Layout>
-      <Helmet>
-        <title>404 Not Found</title>
-      </Helmet>
-
+      <SEO title="404" description="Page not found" />
       <StatusCode code={404}>
         <Container style={{ textAlign: 'center' }}>
           <header>
