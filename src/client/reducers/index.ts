@@ -4,7 +4,7 @@ import { JournalEntry, Actions } from '../actions';
 import { journalReducer } from './journal-reducer';
 
 export interface StoreState {
-  user: UserReducerState;
+  user: false | UserReducerState;
   journals: JournalEntry[];
 }
 

@@ -8,6 +8,13 @@ export function journalReducer(
     case ActionTypes.GetJournalEntries: {
       return [...state, ...action.payload];
     }
+
+    case ActionTypes.NewJournalEntrySuccess: {
+      if (action.payload) {
+        return [...state, action.payload];
+      }
+    }
+
     default: {
       return state;
     }

@@ -8,9 +8,9 @@ export interface UserReducerState {
 }
 
 export const userReducer = (
-  state: UserReducerState = { id: '', email: '', created: '', updated: '' },
+  state: UserReducerState | false = false,
   action: Actions
-): UserReducerState => {
+): UserReducerState | false => {
   switch (action.type) {
     case ActionTypes.Current_User: {
       return action.payload;

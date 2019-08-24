@@ -7,7 +7,7 @@ import { Signup } from './Signup';
 import { User, CreateUser, signupUser, Actions } from '../../actions';
 
 export interface StateProps {
-  user: User;
+  user: User | false;
 }
 
 export interface DispatchProps {

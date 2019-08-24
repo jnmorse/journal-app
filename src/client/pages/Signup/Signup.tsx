@@ -37,7 +37,7 @@ export class Signup extends Component<
   }
 
   public render() {
-    if (this.props.user.id) {
+    if (this.props.user) {
       return (
         <StatusCode code={301}>
           <Redirect to="/" />

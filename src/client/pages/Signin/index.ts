@@ -13,7 +13,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AxiosInstance } from 'axios';
 
 export interface StateProps {
-  user: User;
+  user: User | false;
 }
 
 export interface DispatchProps {

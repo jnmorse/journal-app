@@ -39,7 +39,7 @@ export class Signin extends Component<SigninProps, SigninState, null> {
     const { email, password, error, success } = this.state;
     const { user } = this.props;
 
-    if (success || user.id) {
+    if (success || user) {
       return (
         <StatusCode code={301}>
           <Redirect to="/" />

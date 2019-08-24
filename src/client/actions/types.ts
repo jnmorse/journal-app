@@ -35,6 +35,11 @@ export interface GetJournalEntriesAction {
   payload: JournalEntry[];
 }
 
+export interface NewJournalEntryAction {
+  type: ActionTypes.NewJournalEntrySuccess | ActionTypes.NewJournalEntryFail;
+  payload?: JournalEntry;
+}
+
 export enum ActionTypes {
   User_Error = 'USER_ERROR',
   Signin_Success = 'SIGNIN_SUCCESS',
@@ -43,7 +48,8 @@ export enum ActionTypes {
   Signup_Success = 'SIGNUP_SUCCESS',
   Signup_Fail = 'SIGNUP_FAIL',
   GetJournalEntries = 'GET_JOURNAL_ENTRIES',
-  CreateJournalEntry = 'CREATE_JOURNAL_ENTRY'
+  NewJournalEntrySuccess = 'NEW_JOURNAL_ENTRY_SUCCESS',
+  NewJournalEntryFail = 'NEW_JOURNAL_ENTRY_FAIL'
 }
 
 export type Actions =
@@ -52,4 +58,5 @@ export type Actions =
   | CurrentUserAction
   | SignupSuccessAction
   | SignupFailAction
-  | GetJournalEntriesAction;
+  | GetJournalEntriesAction
+  | NewJournalEntryAction;

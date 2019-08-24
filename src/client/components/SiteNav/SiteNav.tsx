@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
-import { Link, RouteComponentProps, matchPath } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 
-import { StateProps } from './index';
+import { StateProps, DispatchProps } from './index';
 import image from '../../images/quill-svgrepo-com.svg';
 
-type SiteNavProps = StateProps & RouteComponentProps<any>;
+type SiteNavProps = StateProps & RouteComponentProps<any> & DispatchProps;
 
 import { SignedOutLinks } from './SignedOutLinks';
 import { SignedInLinks } from './SignedInLinks';
 
 export class SiteNav extends Component<SiteNavProps> {
+  public componentDidMount() {
+    if (!this.props.user) {
+      this.props.getCurrentUser();
+    }
+  }
+
   public render() {
     const {
       user,
@@ -36,7 +42,7 @@ export class SiteNav extends Component<SiteNavProps> {
             <Nav.Link as={Link} to="/posts">
               Posts
             </Nav.Link>
-            {user.id ? (
+            {user ? (
               <SignedInLinks path={path} />
             ) : (
               <SignedOutLinks path={path} />

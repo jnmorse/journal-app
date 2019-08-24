@@ -2,19 +2,19 @@ import { Schema, Document, model } from 'mongoose';
 import { UserDocument } from './user-schema';
 
 export interface JournalDocument extends Document {
-  user: string;
+  user: UserDocument;
   title: string;
   body: string;
   image: string;
   private: boolean;
   category: string[];
   tags: string[];
-  created?: Date;
-  updated?: Date;
+  created: Date;
+  updated: Date;
 }
 
 export const journalSchema = new Schema<JournalDocument>({
-  user: { type: Schema.Types.ObjectId, ref: 'users' },
+  user: { type: Schema.Types.ObjectId, ref: 'user' },
   title: { type: String, required: true },
   body: { type: String, required: true },
   private: { type: Boolean, required: true },

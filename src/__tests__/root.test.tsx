@@ -56,8 +56,6 @@ describe('server tests', () => {
     expect(response.text).toEqual(expect.stringContaining('DOCTYPE'));
     expect(response.text).toEqual(expect.stringMatching(vendorScriptTag));
     expect(response.text).toEqual(expect.stringMatching(mainScriptTag));
-    expect(response.text).toEqual(
-      expect.stringContaining(minify(appString, { collapseWhitespace: true }))
-    );
+    expect(response.text).toMatchSnapshot();
   });
 });

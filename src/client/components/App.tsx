@@ -6,7 +6,8 @@ import { NotFound } from '../pages/NotFound';
 import { ConnectedSignup } from '../pages/Signup';
 import { ConnectedSignin } from '../pages/Signin';
 
-import JournalForm from './JournalForm';
+import JournalForm from '../pages/JournalForm';
+import requireAuth from '../hoc/RequireAuth';
 
 export class App extends Component {
   public render(): JSX.Element {
@@ -15,7 +16,7 @@ export class App extends Component {
         <Route path="/" exact component={Home} />
         <Route path="/signup" component={ConnectedSignup} />
         <Route path="/signin" component={ConnectedSignin} />
-        <Route path="/journal/new" component={JournalForm} />
+        <Route path="/journal/new" component={requireAuth('/')(JournalForm)} />
         <Route status={404} component={NotFound} />
       </Switch>
     );
