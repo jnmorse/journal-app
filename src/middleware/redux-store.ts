@@ -27,8 +27,9 @@ export function reduxStoreMiddleware(reducers: Reducer): RequestHandler {
       user
         ? {
             user: {
-              id: user.id,
+              _id: user._id,
               email: user.email,
+              username: user.username,
               created: user.created,
               updated: user.updated
             }

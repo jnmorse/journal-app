@@ -7,11 +7,11 @@ import { getStore } from './store';
 import { StoreState } from './reducers';
 import { ActionTypes } from './actions';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import jquery from 'jquery';
+import 'jquery';
 import 'bootstrap/dist/js/bootstrap';
 
 let initState: StoreState = {
-  user: { id: '', email: '', created: '', updated: '' },
+  user: { _id: '', email: '', created: '', updated: '', username: '' },
   journals: []
 };
 

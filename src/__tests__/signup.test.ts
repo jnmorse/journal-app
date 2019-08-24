@@ -27,6 +27,7 @@ describe('routes: /api', () => {
     const response = await request(app)
       .post('/api/signup')
       .send({
+        username: 'someone',
         email: 'someone@somewhere.com',
         password: 'mypass'
       });
@@ -34,7 +35,13 @@ describe('routes: /api', () => {
     token = response.text;
 
     expect(response.status).toBe(201);
-    expect(response.text.length).toBeGreaterThan(0);
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        _id: expect.any(String),
+        username: 'someone',
+        email: 'someone@somewhere.com'
+      })
+    );
   });
 
   test('/signup should not return a token if not okay', async () => {
@@ -43,11 +50,15 @@ describe('routes: /api', () => {
       .post('/api/signup')
       .send({ email: 'otheremail@somewhere.com' });
 
-    expect(responseOne.status).toBe(500);
-    expect(responseOne.text).toBe('email and/or password are missing');
+    expect(responseOne.status).toBe(422);
+    expect(responseOne.text).toBe(
+      'username, email and/or password are missing'
+    );
 
-    expect(responseTwo.status).toBe(500);
-    expect(responseTwo.text).toBe('email and/or password are missing');
+    expect(responseTwo.status).toBe(422);
+    expect(responseTwo.text).toBe(
+      'username, email and/or password are missing'
+    );
   });
 
   test('/signin with credintials returns a token', async () => {

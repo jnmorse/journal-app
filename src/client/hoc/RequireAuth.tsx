@@ -1,4 +1,4 @@
-import React, { Component, ReactNode, ComponentClass } from 'react';
+import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import { ThunkDispatch } from 'redux-thunk';
@@ -12,6 +12,7 @@ import {
   UserError
 } from '../actions';
 import { StoreState } from '../reducers';
+import { StatusCode } from '../components/StatusCode';
 
 interface StateProps {
   user: User | false;
@@ -26,7 +27,7 @@ interface AuthComponentProps {
   children?: ReactNode;
 }
 
-export default function requireAuth<P = {}>(path: string = '/') {
+export default function requireAuth<Props = {}>(path: string = '/') {
   return (AuthComponent: React.ComponentType<any>) => {
     class RequireAuth extends Component<DispatchProps & StateProps> {
       public state = {
@@ -51,7 +52,11 @@ export default function requireAuth<P = {}>(path: string = '/') {
           return <div>loading...</div>;
         }
 
-        return <Redirect to={path} />;
+        return (
+          <StatusCode code={302}>
+            <Redirect to={path} />
+          </StatusCode>
+        );
       }
     }
 
@@ -67,7 +72,7 @@ export default function requireAuth<P = {}>(path: string = '/') {
       };
     }
 
-    return connect<StateProps, DispatchProps, P, StoreState>(
+    return connect<StateProps, DispatchProps, Props, StoreState>(
       mapStateToProps,
       mapDispatchToProps
     )(RequireAuth);

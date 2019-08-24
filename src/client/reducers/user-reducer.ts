@@ -1,18 +1,15 @@
-import { ActionTypes, Actions } from '../actions';
-
-export interface UserReducerState {
-  id: string;
-  email: string;
-  created: string;
-  updated: string;
-}
+import { ActionTypes, Actions, User } from '../actions';
 
 export const userReducer = (
-  state: UserReducerState | false = false,
+  state: User | false = false,
   action: Actions
-): UserReducerState | false => {
+): User | false => {
   switch (action.type) {
     case ActionTypes.Current_User: {
+      return action.payload;
+    }
+
+    case ActionTypes.Signup_Success: {
       return action.payload;
     }
 

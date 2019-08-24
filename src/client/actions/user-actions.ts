@@ -43,13 +43,15 @@ export function getCurrentUser(): ThunkAction<
 }
 
 export interface CreateUser {
+  username: string;
   email: string;
   password: string;
 }
 
-export function signinUser(
-  user: CreateUser
-): ThunkAction<
+export function signinUser(user: {
+  email: string;
+  password: string;
+}): ThunkAction<
   Promise<SigninSuccessAction | SigninFailAction>,
   StoreState,
   AxiosInstance,
@@ -90,7 +92,7 @@ export function signupUser(
     try {
       const response = await api.post<User>('/signup', user);
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         return dispatch({
           type: ActionTypes.Signup_Success,
           payload: response.data

@@ -65,6 +65,7 @@ export function newJournalEntry(
   NewJournalEntryAction
 > {
   return async (dispatch, getState, api) => {
+    console.log(data);
     const response = await api.post<JournalEntry>('/journals', data);
 
     if (response.status === 201) {

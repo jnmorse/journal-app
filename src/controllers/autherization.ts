@@ -8,7 +8,7 @@ export const currentUser = (req: Request, res: Response): void | Response => {
 
   if (user) {
     return res.json({
-      id: user.id,
+      _id: user.id,
       email: user.email,
       created: user.created,
       updated: user.updated
@@ -30,12 +30,15 @@ export const signup = async (
   res: Response,
   next: NextFunction
 ): Promise<void | Response> => {
-  if (!req.body.email || !req.body.password) {
-    return next('email and/or password are missing');
+  if (!req.body.email || !req.body.password || !req.body.username) {
+    return res.status(422).send('username, email and/or password are missing');
   }
 
-  const email: string = req.body.email;
-  const password: string = req.body.password;
+  const {
+    email,
+    password,
+    username
+  }: { email: string; username: string; password: string } = req.body;
 
   try {
     const user = await User.findOne({ email });
@@ -44,12 +47,12 @@ export const signup = async (
       return res.status(422).send({ error: 'Email is in use' });
     }
 
-    const newUser = new User({ email, password });
+    const newUser = new User({ username, email, password });
 
     const saved = await newUser.save();
 
     if (saved) {
-      return res.status(201).send(saved);
+      return res.status(201).json({ _id: saved.id, username, email });
     }
 
     return next('Was unable to save User');

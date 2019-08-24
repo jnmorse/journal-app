@@ -6,7 +6,7 @@ export function journalReducer(
 ): JournalEntry[] {
   switch (action.type) {
     case ActionTypes.GetJournalEntries: {
-      return [...state, ...action.payload];
+      return action.payload;
     }
 
     case ActionTypes.NewJournalEntrySuccess: {

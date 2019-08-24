@@ -8,6 +8,7 @@ import { Layout } from '../../components/Layout';
 import SEO from '../../components/SEO';
 
 interface SignupState {
+  username: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -19,7 +20,8 @@ export class Signup extends Component<
   SignupState,
   null
 > {
-  public state = {
+  public state: SignupState = {
+    username: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -45,28 +47,25 @@ export class Signup extends Component<
       );
     }
 
-    const { email, password, confirmPassword, error } = this.state;
+    const { email, password, confirmPassword, username } = this.state;
 
     return (
       <Layout>
         <SEO title="Signup" description="Signup for Digital Journal" />
         <Container>
-          <Form
-            action="/api/signup"
-            method="post"
-            onSubmit={this.submitForm}
-            autoComplete="off"
-          >
+          <Form action="/api/signup" method="post" onSubmit={this.submitForm}>
             <header>
               <h1>Signup</h1>
+              <p>All Fields Required</p>
               {this.renderError()}
             </header>
 
             <Form.Group controlId="email">
-              <Form.Label>Email:</Form.Label>
+              <Form.Label>Email*</Form.Label>
               <Form.Control
                 as="input"
                 type="email"
+                autoComplete="username email"
                 value={email}
                 required
                 name="email"
@@ -74,12 +73,26 @@ export class Signup extends Component<
               />
             </Form.Group>
 
+            <Form.Group controlId="username">
+              <Form.Label>Username*</Form.Label>
+              <Form.Control
+                as="input"
+                type="text"
+                value={username}
+                autoComplete="nickname"
+                required
+                name="username"
+                onChange={this.updateValue}
+              />
+            </Form.Group>
+
             <Form.Group controlId="password">
-              <Form.Label>Password:</Form.Label>
+              <Form.Label>Password*</Form.Label>
               <Form.Control
                 as="input"
                 type="password"
                 name="password"
+                autoComplete="new-password"
                 required
                 value={password}
                 onChange={this.updateValue}
@@ -87,11 +100,12 @@ export class Signup extends Component<
             </Form.Group>
 
             <Form.Group controlId="confirmPassword">
-              <Form.Label>Confirm Password:</Form.Label>
+              <Form.Label>Confirm Password*</Form.Label>
               <Form.Control
                 type="password"
                 name="confirmPassword"
                 onChange={this.updateValue}
+                autoComplete="new-password"
                 required
                 value={confirmPassword}
               />
@@ -111,7 +125,7 @@ export class Signup extends Component<
   private submitForm = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
-    const { email, password, confirmPassword } = this.state;
+    const { email, password, confirmPassword, username } = this.state;
 
     if (!password.length || !confirmPassword.length) {
       return this.setState({ error: 'password fields are required' });
@@ -119,7 +133,7 @@ export class Signup extends Component<
       return this.setState({ error: 'Passwords do not match' });
     }
 
-    this.props.signupUser({ email, password });
+    this.props.signupUser({ username, email, password });
   };
 
   private updateValue = (event: ChangeEvent<any>): void => {

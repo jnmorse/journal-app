@@ -65,6 +65,7 @@ export class Signin extends Component<SigninProps, SigninState, null> {
                   name="email"
                   onChange={this.updateValue}
                   value={email}
+                  autoComplete="email username"
                   type="email"
                   placeholder="someone@somewhere.com"
                 />
@@ -75,6 +76,7 @@ export class Signin extends Component<SigninProps, SigninState, null> {
                 <Form.Control
                   type="password"
                   name="password"
+                  autoComplete="current-password"
                   value={password}
                   onChange={this.updateValue}
                 />

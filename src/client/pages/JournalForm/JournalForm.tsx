@@ -9,7 +9,7 @@ import {
 } from 'react-bootstrap';
 import SEO from '../../components/SEO';
 
-import { JournalFormDispatchProps } from './index';
+import { JournalFormDispatchProps, JournalFormStateProps } from './index';
 import { NewJournalEntry } from '../../actions';
 
 interface JournalFormState extends NewJournalEntry {
@@ -17,7 +17,7 @@ interface JournalFormState extends NewJournalEntry {
 }
 
 export default class JournalForm extends Component<
-  JournalFormDispatchProps,
+  JournalFormDispatchProps & JournalFormStateProps,
   JournalFormState
 > {
   public state: JournalFormState = {
@@ -66,8 +66,25 @@ export default class JournalForm extends Component<
     this.props.newEntry(post);
   };
 
+  public componentWillMount() {
+    console.log(this.props);
+    if (this.props.entry) {
+      this.setState({
+        submited: false,
+        ...this.props.entry
+      });
+    }
+  }
+
   public render(): JSX.Element {
-    const { private: isPrivate, title, body, category, tags } = this.state;
+    const {
+      private: isPrivate,
+      title,
+      body,
+      category,
+      tags,
+      image
+    } = this.state;
     return (
       <Layout>
         <SEO title="New Post" description="write a new journal entry" />
@@ -101,7 +118,12 @@ export default class JournalForm extends Component<
 
             <Form.Group controlId="image">
               <Form.Label>Image URL</Form.Label>
-              <Form.Control name="image" type="url" />
+              <Form.Control
+                name="image"
+                type="url"
+                value={image}
+                onChange={this.updateValue}
+              />
             </Form.Group>
 
             <Form.Group controlId="category">

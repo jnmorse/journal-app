@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import { userReducer, UserReducerState } from './user-reducer';
-import { JournalEntry, Actions } from '../actions';
+import { userReducer } from './user-reducer';
+import { JournalEntry, Actions, User } from '../actions';
 import { journalReducer } from './journal-reducer';
 
 export interface StoreState {
-  user: false | UserReducerState;
+  user: false | User;
   journals: JournalEntry[];
 }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, RouteComponentProps } from 'react-router-dom';
 
 import Home from '../pages/Home';
 import { NotFound } from '../pages/NotFound';
@@ -16,6 +16,7 @@ export class App extends Component {
         <Route path="/" exact component={Home} />
         <Route path="/signup" component={ConnectedSignup} />
         <Route path="/signin" component={ConnectedSignin} />
+        <Route path="/journal/:id" component={requireAuth('/')(JournalForm)} />
         <Route path="/journal/new" component={requireAuth('/')(JournalForm)} />
         <Route status={404} component={NotFound} />
       </Switch>

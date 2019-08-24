@@ -2,7 +2,6 @@ import { Signin } from './Signin';
 import {
   User,
   signinUser,
-  CreateUser,
   Actions,
   SigninSuccessAction,
   SigninFailAction
@@ -17,9 +16,10 @@ export interface StateProps {
 }
 
 export interface DispatchProps {
-  signinUser: (
-    user: CreateUser
-  ) => Promise<SigninSuccessAction | SigninFailAction>;
+  signinUser: (user: {
+    email: string;
+    password: string;
+  }) => Promise<SigninSuccessAction | SigninFailAction>;
 }
 
 function mapStateToProps({ user }: StoreState): StateProps {
@@ -30,7 +30,7 @@ function mapDispatchToProps(
   dispatch: ThunkDispatch<StoreState, AxiosInstance, Actions>
 ): DispatchProps {
   return {
-    signinUser: async (user: CreateUser) => {
+    signinUser: async (user: { email: string; password: string }) => {
       return await dispatch(signinUser(user));
     }
   };

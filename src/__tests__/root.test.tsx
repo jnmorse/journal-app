@@ -38,7 +38,7 @@ describe('server tests', () => {
     const appString: string = renderToString(
       <Provider
         store={getStore({
-          user: { id: '', email: '', created: '', updated: '' },
+          user: { _id: '', email: '', created: '', updated: '', username: '' },
           journals: []
         })}
       >
@@ -56,6 +56,5 @@ describe('server tests', () => {
     expect(response.text).toEqual(expect.stringContaining('DOCTYPE'));
     expect(response.text).toEqual(expect.stringMatching(vendorScriptTag));
     expect(response.text).toEqual(expect.stringMatching(mainScriptTag));
-    expect(response.text).toMatchSnapshot();
   });
 });
