@@ -1,10 +1,10 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction, Request, RequestHandler } from 'express';
 import 'dotenv/config';
 
 import { User, UserDocument } from '../schemas/user-schema';
 
 export const currentUser = (req: Request, res: Response): void | Response => {
-  const user: UserDocument | undefined = req.user;
+  const user = req.user as UserDocument;
 
   if (user) {
     return res.json({

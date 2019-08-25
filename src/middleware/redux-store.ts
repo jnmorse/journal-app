@@ -1,11 +1,16 @@
-import { createStore, applyMiddleware, Reducer, Store } from 'redux';
-import thunk from 'redux-thunk';
-import { Request, Response, NextFunction, RequestHandler } from 'express';
+import { createStore, applyMiddleware, Reducer, Store, Action } from 'redux';
+import thunk, { ThunkDispatch, ThunkAction } from 'redux-thunk';
+import { Response, NextFunction, Request } from 'express';
 import axios, { AxiosInstance } from 'axios';
 import { StoreState } from '../client/reducers';
-import { Actions } from '../client/actions';
+import {
+  Actions,
+  getJournalEntries,
+  GetJournalEntriesAction
+} from '../client/actions';
+import { UserDocument } from '../schemas/user-schema';
 
-export function reduxStoreMiddleware(reducers: Reducer): RequestHandler {
+export function reduxStoreMiddleware(reducers: Reducer) {
   return async (
     req: Request,
     res: Response,
@@ -15,7 +20,7 @@ export function reduxStoreMiddleware(reducers: Reducer): RequestHandler {
       baseURL: 'http://localhost:3010/api'
     });
 
-    const user = req.user;
+    const user = req.user as UserDocument;
 
     const store: Store<StoreState, Actions> = createStore<
       StoreState,
@@ -24,19 +29,21 @@ export function reduxStoreMiddleware(reducers: Reducer): RequestHandler {
       any
     >(
       reducers,
-      user
-        ? {
-            user: {
-              _id: user._id,
-              email: user.email,
+      {
+        user: user
+          ? {
+              _id: user.id,
               username: user.username,
-              created: user.created,
-              updated: user.updated
+              email: user.email,
+              created: user.created.toUTCString(),
+              updated: user.updated.toUTCString()
             }
-          }
-        : {},
+          : false
+      },
       applyMiddleware(thunk.withExtraArgument(api))
     );
+
+    await store.dispatch<any>(getJournalEntries());
 
     res.locals.store = store;
 

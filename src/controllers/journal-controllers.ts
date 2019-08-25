@@ -1,21 +1,16 @@
-import {
-  JournalDocument,
-  Journal,
-  journalSchema
-} from '../schemas/journal-schema';
-import { Request, Response, NextFunction } from 'express';
+import { JournalDocument, Journal } from '../schemas/journal-schema';
+import { Response, NextFunction } from 'express';
 import { UserDocument, User } from '../schemas/user-schema';
-import JournalEntries from 'src/client/components/JournalEntries/JournalEntries';
+import { RequestHandler, IRouterHandler } from 'express-serve-static-core';
 
-export async function createJournalEntry(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> {
-  const user: UserDocument = req.user;
+export const createJournalEntry: RequestHandler = async (
+  req,
+  res,
+  next
+): Promise<void> => {
+  const user = req.user;
 
   const journal: JournalDocument = new Journal({ ...req.body, user });
-  console.log(journal.toJSON());
 
   try {
     const saved = await journal.save();
@@ -29,12 +24,12 @@ export async function createJournalEntry(
   } catch (error) {
     res.status(422).send(req.body);
   }
-}
+};
 
-export async function getJournalEntries(
-  req: Request,
-  res: Response
-): Promise<Response> {
+export const getJournalEntries: RequestHandler = async (
+  req,
+  res
+): Promise<Response> => {
   const { limit = 10, offset = 0 } = req.query;
 
   const entries = await Journal.find({}, null, {
@@ -43,4 +38,4 @@ export async function getJournalEntries(
   }).populate('user', ['id', 'username', 'email'], User);
 
   return res.json(entries);
-}
+};
