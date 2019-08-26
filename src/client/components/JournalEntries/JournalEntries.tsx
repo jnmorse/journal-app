@@ -56,9 +56,9 @@ export default class JournalEntries extends Component<
   public renderEntries(): JSX.Element[] {
     return this.props.journals.map(journal => {
       return (
-        <Col key={journal._id} md={4}>
-          <Card>
-            <Card.Header>
+        <Col key={journal._id} sm={6} md={6} lg={4}>
+          <Card as="section">
+            <Card.Header as="header" className="text-center">
               {journal.image ? (
                 <img
                   src={journal.image}
@@ -71,12 +71,12 @@ export default class JournalEntries extends Component<
                   }}
                 />
               ) : null}
-              {journal.title}
+              <h2>{journal.title}</h2>
             </Card.Header>
             <Card.Body
               dangerouslySetInnerHTML={{ __html: marked(journal.body) }}
             />
-            <Card.Footer>
+            <Card.Footer as="footer">
               <p>
                 <span>by {journal.user.username} on </span>
                 <span>{this.toDateTimeString(journal.updated)}</span>

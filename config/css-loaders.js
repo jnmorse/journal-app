@@ -10,10 +10,7 @@ exports.cssLoaders = env => {
     use: [
       isDevelopment
         ? {
-            loader: 'style-loader',
-            options: {
-              sourceMap: true
-            }
+            loader: 'style-loader'
           }
         : { loader: MiniCssExtractplugin.loader },
       {

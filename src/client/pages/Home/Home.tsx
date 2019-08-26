@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { RouteProps } from 'react-router-dom';
-import { Jumbotron } from 'react-bootstrap';
+import { Jumbotron, Container } from 'react-bootstrap';
 
 import image from '../../images/quill-svgrepo-com.svg';
 
@@ -22,7 +22,9 @@ export class Home extends Component<RouteProps> {
           <h2>Digital Journal</h2>
           <p>Organize all your content and ideas together in one place.</p>
         </Jumbotron>
-        <JournalEntries limit={5} offset={0} />
+        <Container>
+          <JournalEntries limit={5} offset={0} />
+        </Container>
       </Layout>
     );
   }

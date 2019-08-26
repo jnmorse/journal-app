@@ -19,7 +19,6 @@ const devServer = new WebpackDevServer(compiler, {
   watchOptions: {
     ignored: [/node_modules/]
   },
-  quiet: true,
   historyApiFallback: {
     disableDotRule: true
   },

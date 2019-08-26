@@ -55,3 +55,29 @@ export async function deleteJournalEntry(
 
   return next('Not logged in');
 }
+
+export async function updateJournalEntry(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<Response | void> {
+  if (req.user) {
+    const id = req.params.id;
+
+    const updated = await Journal.findOneAndUpdate(
+      {
+        _id: id,
+        user: req.user._id
+      },
+      req.body
+    );
+
+    if (updated) {
+      return res.sendStatus(200);
+    }
+
+    return res.sendStatus(422);
+  }
+
+  return next('something went wrong');
+}

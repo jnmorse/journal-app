@@ -1,5 +1,4 @@
 const webpackMerge = require('webpack-merge');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
@@ -44,10 +43,6 @@ module.exports = webpackMerge(commonConfig, {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new MiniCssExtractPlugin({
-      filename: 'css/[name].[hash:8].css',
-      chunkFilename: 'css/[id].css'
-    }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../template.html')
     })

@@ -1,7 +1,4 @@
 const webpackMerge = require('webpack-merge');
-const path = require('path');
-const TerserWebpackPlugin = require('terser-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const WebpackManifestPlugin = require('webpack-manifest-plugin');
 
 const baseConfig = require('../base-config');
@@ -17,50 +14,11 @@ module.exports = webpackMerge(baseConfig, {
     publicPath: '/'
   },
 
-  optimization: {
-    minimize: false,
-    minimizer: [
-      new TerserWebpackPlugin({
-        terserOptions: {
-          parse: {
-            ecma: 8
-          },
-          compress: {
-            ecma: 5,
-            warnings: false,
-            comparisons: false,
-            inline: 2
-          },
-          mangle: {
-            safari10: true
-          },
-          output: {
-            ecma: 5,
-            comments: false,
-            ascii_only: true
-          }
-        },
-        cache: true,
-        sourceMap: true
-      }),
-      new OptimizeCSSAssetsPlugin()
-    ],
-    splitChunks: {
-      chunks: 'initial',
-      cacheGroups: {
-        vendors: {
-          test: /node_modules/u,
-          name: 'vendor'
-        }
-      }
-    }
-  },
-
   module: {
     rules: [
       {
         test: /\.tsx?$/u,
-        exclude: [/node_modules/u, /react-renderer\.ts/u],
+        exclude: [/node_modules/u],
         use: ['babel-loader', 'react-hot-loader/webpack', 'ts-loader']
       },
 
@@ -80,16 +38,5 @@ module.exports = webpackMerge(baseConfig, {
     ]
   },
 
-  plugins: [new WebpackManifestPlugin()],
-
-  node: {
-    module: 'empty',
-    dgram: 'empty',
-    dns: 'mock',
-    fs: 'empty',
-    http2: 'empty',
-    net: 'empty',
-    tls: 'empty',
-    child_process: 'empty'
-  }
+  plugins: [new WebpackManifestPlugin()]
 });
