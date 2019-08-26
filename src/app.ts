@@ -51,12 +51,9 @@ if (notTestEnv && isDevelopment) {
   app.use(morgan('combined'));
 }
 
-app.get(
-  '/api/test',
-  (req: Request, res: Response): void => {
-    res.json({ message: 'Hello World' });
-  }
-);
+app.get('/api/test', (req: Request, res: Response): void => {
+  res.json({ message: 'Hello World' });
+});
 
 app.use('/api', userRoutes);
 app.use('/api', JournalRoutes);
@@ -86,6 +83,10 @@ app.use('/images', express.static('dist/images'));
 app.use('/manifest.json', express.static('dist/manifest.json'));
 app.get('/robots.txt', (req, res) => {
   res.send('');
+});
+
+app.get('/favicon.ico', (req, res) => {
+  res.sendStatus(404);
 });
 
 app.get(
