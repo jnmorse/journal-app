@@ -51,7 +51,7 @@ export class Signin extends Component<SigninProps, SigninState, null> {
       <Layout>
         <SEO title="Signin" description="Signin to Digital Journal" />
         <Container>
-          <Form method="post" action="/api/signin" onSubmit={this.submitForm}>
+          <Form method="post" action="/api/signin">
             <header>
               <h1>Signin</h1>
             </header>

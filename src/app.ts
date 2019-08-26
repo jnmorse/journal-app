@@ -27,6 +27,7 @@ app.use([
   express.json(),
   express.urlencoded({ extended: true }),
   expressSession({
+    name: 'journal-app',
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7
     },

@@ -41,7 +41,7 @@ const localLogin: LocalStrategy = new LocalStrategy(
         return done(null, user);
       }
 
-      return done("password doesn't match");
+      return done(null, false);
     } catch (error) {
       done(error);
     }
