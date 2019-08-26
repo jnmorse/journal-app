@@ -9,12 +9,19 @@ import {
   NewJournalEntryAction,
   newJournalEntry,
   JournalEntry,
-  NewJournalEntry
+  NewJournalEntry,
+  editJournalEntry,
+  EditJournalEntrySuccessAction,
+  EditJournalEntryFailAction,
+  Actions
 } from '../../actions';
 import { RouteComponentProps } from 'react-router';
 
 export interface JournalFormDispatchProps {
   newEntry: (data: NewJournalEntry) => Promise<NewJournalEntryAction>;
+  editEntry: (
+    data: JournalEntry
+  ) => Promise<EditJournalEntryFailAction | EditJournalEntrySuccessAction>;
 }
 
 export interface JournalFormStateProps {
@@ -22,11 +29,18 @@ export interface JournalFormStateProps {
 }
 
 function mapDispatchToProps(
-  dispatch: ThunkDispatch<StoreState, AxiosInstance, NewJournalEntryAction>
+  dispatch: ThunkDispatch<StoreState, AxiosInstance, Actions>
 ): JournalFormDispatchProps {
   return {
-    newEntry: (data: NewJournalEntry): Promise<NewJournalEntryAction> =>
-      dispatch(newJournalEntry(data))
+    newEntry(data: NewJournalEntry): Promise<NewJournalEntryAction> {
+      return dispatch(newJournalEntry(data));
+    },
+
+    editEntry(
+      data: JournalEntry
+    ): Promise<EditJournalEntrySuccessAction | EditJournalEntryFailAction> {
+      return dispatch(editJournalEntry(data));
+    }
   };
 }
 

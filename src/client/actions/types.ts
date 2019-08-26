@@ -1,3 +1,4 @@
+import { Action } from 'redux';
 import { User } from './interfaces';
 import { JournalEntry } from './journal-actions';
 
@@ -7,7 +8,7 @@ export interface SigninSuccessAction {
 
 export interface SigninFailAction {
   type: ActionTypes.Signin_Fail;
-  payload?: any;
+  payload: string;
 }
 
 export interface CurrentUserAction {
@@ -50,6 +51,16 @@ export interface DeleteJournalEntryFailAction {
   payload: string;
 }
 
+export interface EditJournalEntrySuccessAction {
+  type: ActionTypes.EditJournalEntrySuccess;
+  payload: JournalEntry;
+}
+
+export interface EditJournalEntryFailAction {
+  type: ActionTypes.EditJournalEntryFail;
+  payload: string;
+}
+
 export enum ActionTypes {
   User_Error = 'USER_ERROR',
   Signin_Success = 'SIGNIN_SUCCESS',
@@ -61,7 +72,9 @@ export enum ActionTypes {
   NewJournalEntrySuccess = 'NEW_JOURNAL_ENTRY_SUCCESS',
   NewJournalEntryFail = 'NEW_JOURNAL_ENTRY_FAIL',
   DeleteJournalEntrySuccess = 'DELETE_JOURNAL_ENTRY_SUCCESS',
-  DeleteJournalEntryFail = 'DELETE_JOURNAL_ENTRY_FAIL'
+  DeleteJournalEntryFail = 'DELETE_JOURNAL_ENTRY_FAIL',
+  EditJournalEntrySuccess = 'EDIT_JOURNAL_ENTRY_SUCCESS',
+  EditJournalEntryFail = 'EDIT_JOURNAL_ENTRY_FAIL'
 }
 
 export type Actions =
@@ -73,4 +86,6 @@ export type Actions =
   | GetJournalEntriesAction
   | NewJournalEntryAction
   | DeleteJournalEntrySuccessAction
-  | DeleteJournalEntryFailAction;
+  | DeleteJournalEntryFailAction
+  | EditJournalEntrySuccessAction
+  | EditJournalEntryFailAction;

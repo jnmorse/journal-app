@@ -1,4 +1,6 @@
 import React, { Component, ChangeEvent, FormEvent } from 'react';
+import { Redirect } from 'react-router';
+
 import { Layout } from '../../components/Layout';
 import {
   Form,
@@ -10,25 +12,44 @@ import {
 import SEO from '../../components/SEO';
 
 import { JournalFormDispatchProps, JournalFormStateProps } from './index';
-import { NewJournalEntry } from '../../actions';
+import {
+  NewJournalEntry,
+  ActionTypes,
+  NewJournalEntryAction,
+  Actions,
+  editJournalEntry
+} from '../../actions';
+import { StatusCode } from '../../components/StatusCode';
 
 interface JournalFormState extends NewJournalEntry {
   submited: boolean;
+  error: string | false;
 }
 
 export default class JournalForm extends Component<
   JournalFormDispatchProps & JournalFormStateProps,
   JournalFormState
 > {
-  public state: JournalFormState = {
-    title: '',
-    private: false,
-    body: '',
-    category: [],
-    image: '',
-    tags: [],
-    submited: false
-  };
+  constructor(props: JournalFormDispatchProps & JournalFormStateProps) {
+    super(props);
+
+    const defaultState: JournalFormState = {
+      title: '',
+      private: false,
+      body: '',
+      category: [],
+      image: '',
+      tags: [],
+      submited: false,
+      error: false
+    };
+
+    if (props.entry) {
+      this.state = { ...defaultState, ...props.entry };
+    } else {
+      this.state = defaultState;
+    }
+  }
 
   public updateValue = (event: ChangeEvent<any>) => {
     const { name, value } = event.target;
@@ -58,23 +79,30 @@ export default class JournalForm extends Component<
     });
   };
 
-  public submitNewEntry = (event: FormEvent<HTMLFormElement>) => {
+  public submitNewEntry = async (
+    event: FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault();
 
-    const { submited, ...post } = this.state;
+    const { error, submited, ...post } = this.state;
 
-    this.props.newEntry(post);
-  };
+    let action: Actions;
 
-  public componentWillMount() {
-    console.log(this.props);
     if (this.props.entry) {
+      action = await this.props.editEntry({ ...this.props.entry, ...post });
+    } else {
+      action = await this.props.newEntry(post);
+    }
+
+    if (
+      action.type === ActionTypes.NewJournalEntrySuccess ||
+      action.type === ActionTypes.EditJournalEntrySuccess
+    ) {
       this.setState({
-        submited: false,
-        ...this.props.entry
+        submited: true
       });
     }
-  }
+  };
 
   public render(): JSX.Element {
     const {
@@ -83,15 +111,27 @@ export default class JournalForm extends Component<
       body,
       category,
       tags,
-      image
+      image,
+      submited
     } = this.state;
+
+    const { entry } = this.props;
+
+    if (submited) {
+      return (
+        <StatusCode code={302}>
+          <Redirect to="/" />
+        </StatusCode>
+      );
+    }
+
     return (
       <Layout>
         <SEO title="New Post" description="write a new journal entry" />
         <Container>
           <Form method="post" autoComplete="off" onSubmit={this.submitNewEntry}>
             <header>
-              <h2>New Post</h2>
+              <h2>{entry ? 'Edit' : 'False'} Post</h2>
             </header>
 
             <Form.Group controlId="title">
@@ -164,7 +204,9 @@ export default class JournalForm extends Component<
 
             <footer>
               <ButtonGroup>
-                <Button type="submit">Create New Post</Button>
+                <Button type="submit">
+                  {entry ? 'Edit Post' : 'Create New Post'}
+                </Button>
                 <Button type="button" variant="secondary">
                   Preview
                 </Button>
