@@ -4,7 +4,6 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import request from 'supertest';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter as Router } from 'react-router-dom';
-import { minify } from 'html-minifier';
 import { Provider } from 'react-redux';
 
 import { app } from '../app';

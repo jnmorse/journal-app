@@ -1,14 +1,16 @@
-import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { StoreState } from '../reducers';
+import { ThunkAction } from 'redux-thunk';
 import { AxiosInstance } from 'axios';
+
+import { StoreState } from '../reducers';
 import {
   GetJournalEntriesAction,
   ActionTypes,
-  Actions,
-  NewJournalEntryAction
+  NewJournalEntryAction,
+  DeleteJournalEntrySuccessAction,
+  DeleteJournalEntryFailAction
 } from './types';
-import { Action } from 'redux';
 import { User } from './interfaces';
+import { string } from 'prop-types';
 
 export interface JournalEntry {
   _id: string;
@@ -65,7 +67,6 @@ export function newJournalEntry(
   NewJournalEntryAction
 > {
   return async (dispatch, getState, api) => {
-    console.log(data);
     const response = await api.post<JournalEntry>('/journals', data);
 
     if (response.status === 201) {
@@ -86,5 +87,44 @@ function createSuccess(data: JournalEntry): NewJournalEntryAction {
 function newJournalEntryFail(): NewJournalEntryAction {
   return {
     type: ActionTypes.NewJournalEntryFail
+  };
+}
+
+function deleteJournalEntrySuccess(
+  id: string
+): DeleteJournalEntrySuccessAction {
+  return {
+    type: ActionTypes.DeleteJournalEntrySuccess,
+    payload: id
+  };
+}
+
+function deleteJournalEntryFail(id: string): DeleteJournalEntryFailAction {
+  return {
+    type: ActionTypes.DeleteJournalEntryFail,
+    payload: id
+  };
+}
+
+export type DeleteResponse =
+  | DeleteJournalEntrySuccessAction
+  | DeleteJournalEntryFailAction;
+
+export function deleteJournalEntry(
+  id: string
+): ThunkAction<
+  Promise<DeleteResponse>,
+  StoreState,
+  AxiosInstance,
+  DeleteResponse
+> {
+  return async (dispatch, getState, api) => {
+    const response = await api.delete<void>(`/journals/${id}`);
+
+    if (response.status === 200) {
+      return dispatch(deleteJournalEntrySuccess(id));
+    }
+
+    return dispatch(deleteJournalEntryFail(id));
   };
 }

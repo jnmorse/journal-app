@@ -40,6 +40,16 @@ export interface NewJournalEntryAction {
   payload?: JournalEntry;
 }
 
+export interface DeleteJournalEntrySuccessAction {
+  type: ActionTypes.DeleteJournalEntrySuccess;
+  payload: string;
+}
+
+export interface DeleteJournalEntryFailAction {
+  type: ActionTypes.DeleteJournalEntryFail;
+  payload: string;
+}
+
 export enum ActionTypes {
   User_Error = 'USER_ERROR',
   Signin_Success = 'SIGNIN_SUCCESS',
@@ -49,7 +59,9 @@ export enum ActionTypes {
   Signup_Fail = 'SIGNUP_FAIL',
   GetJournalEntries = 'GET_JOURNAL_ENTRIES',
   NewJournalEntrySuccess = 'NEW_JOURNAL_ENTRY_SUCCESS',
-  NewJournalEntryFail = 'NEW_JOURNAL_ENTRY_FAIL'
+  NewJournalEntryFail = 'NEW_JOURNAL_ENTRY_FAIL',
+  DeleteJournalEntrySuccess = 'DELETE_JOURNAL_ENTRY_SUCCESS',
+  DeleteJournalEntryFail = 'DELETE_JOURNAL_ENTRY_FAIL'
 }
 
 export type Actions =
@@ -59,4 +71,6 @@ export type Actions =
   | SignupSuccessAction
   | SignupFailAction
   | GetJournalEntriesAction
-  | NewJournalEntryAction;
+  | NewJournalEntryAction
+  | DeleteJournalEntrySuccessAction
+  | DeleteJournalEntryFailAction;

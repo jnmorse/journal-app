@@ -10,6 +10,8 @@ import {
 } from '../client/actions';
 import { UserDocument } from '../schemas/user-schema';
 
+const PORT = process.env.PORT || 3010;
+
 export function reduxStoreMiddleware(reducers: Reducer) {
   return async (
     req: Request,
@@ -17,7 +19,7 @@ export function reduxStoreMiddleware(reducers: Reducer) {
     next: NextFunction
   ): Promise<void> => {
     const api: AxiosInstance = axios.create({
-      baseURL: 'http://localhost:3010/api'
+      baseURL: `http://localhost:${PORT}/api`
     });
 
     const user = req.user as UserDocument;

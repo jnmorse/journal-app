@@ -15,6 +15,10 @@ export function journalReducer(
       }
     }
 
+    case ActionTypes.DeleteJournalEntrySuccess: {
+      return state.filter(entry => entry._id !== action.payload);
+    }
+
     default: {
       return state;
     }

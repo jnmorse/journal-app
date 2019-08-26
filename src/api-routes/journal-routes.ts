@@ -2,7 +2,8 @@ import { Router } from 'express';
 import { requireAuth } from '../middleware/passport-middleware';
 import {
   createJournalEntry,
-  getJournalEntries
+  getJournalEntries,
+  deleteJournalEntry
 } from '../controllers/journal-controllers';
 
 const JournalRoutes = Router();
@@ -25,6 +26,6 @@ JournalRoutes.put('/journals/:id', requireAuth);
 /**
  * Delete a journal entry
  */
-JournalRoutes.delete('/journals/:id', requireAuth);
+JournalRoutes.delete('/journals/:id', requireAuth, deleteJournalEntry);
 
 export { JournalRoutes };

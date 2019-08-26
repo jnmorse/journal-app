@@ -26,12 +26,16 @@ export default class JournalEntries extends Component<
   }
 
   public showButtons(entry: JournalEntry) {
-    const { user } = this.props;
+    const { user, deleteEntry } = this.props;
 
     if (user && user._id === entry.user._id) {
       return (
         <>
-          <Button type="button" variant="danger">
+          <Button
+            type="button"
+            variant="danger"
+            onClick={() => deleteEntry(entry._id)}
+          >
             Delete
           </Button>
           <Button

@@ -1,12 +1,10 @@
 import { JournalDocument, Journal } from '../schemas/journal-schema';
-import { Response, NextFunction } from 'express';
-import { UserDocument, User } from '../schemas/user-schema';
-import { RequestHandler, IRouterHandler } from 'express-serve-static-core';
+import { Response, NextFunction, RequestHandler, Request } from 'express';
+import { User } from '../schemas/user-schema';
 
 export const createJournalEntry: RequestHandler = async (
-  req,
-  res,
-  next
+  req: Request,
+  res: Response
 ): Promise<void> => {
   const user = req.user;
 
@@ -39,3 +37,21 @@ export const getJournalEntries: RequestHandler = async (
 
   return res.json(entries);
 };
+
+export async function deleteJournalEntry(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<Response | void> {
+  if (req.user) {
+    const deleted = await Journal.deleteOne({ _id: req.params.id });
+
+    if (deleted.ok) {
+      return res.sendStatus(200);
+    }
+
+    return res.sendStatus(422);
+  }
+
+  return next('Not logged in');
+}

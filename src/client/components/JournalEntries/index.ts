@@ -2,7 +2,13 @@ import { connect } from 'react-redux';
 
 import JournalEntries from './JournalEntries';
 import { StoreState } from '../../reducers';
-import { JournalEntry, getJournalEntries, User } from '../../actions';
+import {
+  JournalEntry,
+  getJournalEntries,
+  User,
+  DeleteResponse,
+  deleteJournalEntry
+} from '../../actions';
 import { ThunkDispatch } from 'redux-thunk';
 import { AxiosInstance } from 'axios';
 import { Action, Dispatch } from 'redux';
@@ -14,6 +20,7 @@ export interface JournalStateProps {
 
 export interface DispatchProps {
   getJournalEntries: (limit?: number, offset?: number) => Promise<void>;
+  deleteEntry(id: string): Promise<DeleteResponse>;
 }
 
 function mapStateToProps({ journals, user }: StoreState): JournalStateProps {
@@ -25,7 +32,11 @@ function mapDispatchToProps(
 ): DispatchProps {
   return {
     getJournalEntries: (limit?: number, offset?: number) =>
-      dispatch(getJournalEntries(limit, offset))
+      dispatch(getJournalEntries(limit, offset)),
+
+    deleteEntry(id): Promise<DeleteResponse> {
+      return dispatch(deleteJournalEntry(id));
+    }
   };
 }
 
