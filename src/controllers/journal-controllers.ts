@@ -28,14 +28,32 @@ export const getJournalEntries: RequestHandler = async (
   req,
   res
 ): Promise<Response> => {
-  const { limit = 10, offset = 0 } = req.query;
-
-  const entries = await Journal.find({}, null, {
-    limit: Number(limit),
-    skip: Number(offset)
-  }).populate('user', ['id', 'username', 'email'], User);
+  const entries = await Journal.find().populate(
+    'user',
+    ['id', 'username', 'email'],
+    User
+  );
 
   return res.json(entries);
+};
+
+export const getJournalEntry: RequestHandler = async (
+  req,
+  res
+): Promise<Response> => {
+  const id = req.params.id;
+
+  const entry = await Journal.findById(id).populate(
+    'user',
+    ['id', 'username', 'email'],
+    User
+  );
+
+  if (entry) {
+    return res.status(200).json(entry);
+  }
+
+  return res.sendStatus(422);
 };
 
 export async function deleteJournalEntry(

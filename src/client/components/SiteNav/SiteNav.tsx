@@ -39,9 +39,6 @@ export class SiteNav extends Component<SiteNavProps> {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
-            <Nav.Link as={Link} to="/posts">
-              Posts
-            </Nav.Link>
             {user ? (
               <SignedInLinks path={path} />
             ) : (

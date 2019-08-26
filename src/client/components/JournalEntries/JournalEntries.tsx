@@ -1,22 +1,16 @@
 import React, { Component } from 'react';
 import { Card, Row, Col, Button } from 'react-bootstrap';
 import marked from 'marked';
+import { Link } from 'react-router-dom';
 
 import { JournalStateProps, DispatchProps } from './index';
 import { JournalEntry } from '../../actions';
-import { Link } from 'react-router-dom';
-
-interface JournalEntriesProps extends JournalStateProps {
-  limit: number;
-  offset: number;
-}
 
 export default class JournalEntries extends Component<
-  JournalEntriesProps & DispatchProps
+  JournalStateProps & DispatchProps
 > {
   public componentDidMount() {
-    const { limit, offset } = this.props;
-    this.props.getJournalEntries(limit, offset);
+    this.props.getJournalEntries();
   }
 
   public toDateTimeString(dateString: string): string {
@@ -42,7 +36,7 @@ export default class JournalEntries extends Component<
             as={Link}
             type="button"
             variant="success"
-            to={`/journal/${entry._id}`}
+            to={`/journal/${entry._id}/edit`}
           >
             Edit
           </Button>
@@ -56,7 +50,7 @@ export default class JournalEntries extends Component<
   public renderEntries(): JSX.Element[] {
     return this.props.journals.map(journal => {
       return (
-        <Col key={journal._id} sm={6} md={6} lg={4}>
+        <Col key={journal._id} lg={6}>
           <Card as="section">
             <Card.Header as="header" className="text-center">
               {journal.image ? (
@@ -71,7 +65,9 @@ export default class JournalEntries extends Component<
                   }}
                 />
               ) : null}
-              <h2>{journal.title}</h2>
+              <h2>
+                <Link to={`/journal/${journal._id}`}>{journal.title}</Link>
+              </h2>
             </Card.Header>
             <Card.Body
               dangerouslySetInnerHTML={{ __html: marked(journal.body) }}

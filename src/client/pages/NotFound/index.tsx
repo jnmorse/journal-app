@@ -8,11 +8,7 @@ import { Layout } from '../../components/Layout';
 import { Container } from 'react-bootstrap';
 import SEO from '../../components/SEO';
 
-export interface NotFoundPropTypes {
-  status: number;
-}
-
-export const NotFound = ({ status }: NotFoundPropTypes): JSX.Element => {
+export const NotFound = (): JSX.Element => {
   return (
     <Layout>
       <SEO title="404" description="Page not found" />

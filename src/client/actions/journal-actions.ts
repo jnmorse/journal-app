@@ -29,27 +29,16 @@ export interface NewJournalEntry {
   title: string;
   body: string;
   image: string;
-  private: boolean;
-  category: string[];
-  tags: string[];
 }
 
-export function getJournalEntries(
-  limit: number = 5,
-  offset: number = 0
-): ThunkAction<
+export function getJournalEntries(): ThunkAction<
   Promise<void>,
   StoreState,
   AxiosInstance,
   GetJournalEntriesAction
 > {
   return async (dispatch, getState, api) => {
-    const response = await api.get<JournalEntry[]>('/journals', {
-      params: {
-        limit,
-        offset
-      }
-    });
+    const response = await api.get<JournalEntry[]>('/journals');
 
     dispatch({
       type: ActionTypes.GetJournalEntries,

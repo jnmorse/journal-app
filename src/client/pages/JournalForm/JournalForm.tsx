@@ -2,23 +2,11 @@ import React, { Component, ChangeEvent, FormEvent } from 'react';
 import { Redirect } from 'react-router';
 
 import { Layout } from '../../components/Layout';
-import {
-  Form,
-  Container,
-  Button,
-  InputGroup,
-  ButtonGroup
-} from 'react-bootstrap';
+import { Form, Container, Button, ButtonGroup } from 'react-bootstrap';
 import SEO from '../../components/SEO';
 
 import { JournalFormDispatchProps, JournalFormStateProps } from './index';
-import {
-  NewJournalEntry,
-  ActionTypes,
-  NewJournalEntryAction,
-  Actions,
-  editJournalEntry
-} from '../../actions';
+import { NewJournalEntry, ActionTypes, Actions } from '../../actions';
 import { StatusCode } from '../../components/StatusCode';
 
 interface JournalFormState extends NewJournalEntry {
@@ -35,11 +23,8 @@ export default class JournalForm extends Component<
 
     const defaultState: JournalFormState = {
       title: '',
-      private: false,
       body: '',
-      category: [],
       image: '',
-      tags: [],
       submited: false,
       error: false
     };
@@ -57,26 +42,6 @@ export default class JournalForm extends Component<
     if (Object(this.state).hasOwnProperty(name)) {
       this.setState({ ...this.state, [name]: value });
     }
-  };
-
-  public updateVisiablity = () => {
-    this.setState(prevState => ({ private: !prevState.private }));
-  };
-
-  public updateCategory = (event: ChangeEvent<any>): void => {
-    const category: string = event.target.value;
-
-    this.setState({
-      category: category.split(',').map(value => value.trim())
-    });
-  };
-
-  public updateTags = (event: ChangeEvent<any>): void => {
-    const tags: string = event.target.value;
-
-    this.setState({
-      tags: tags.split(',').map(value => value.trim())
-    });
   };
 
   public submitNewEntry = async (
@@ -105,15 +70,7 @@ export default class JournalForm extends Component<
   };
 
   public render(): JSX.Element {
-    const {
-      private: isPrivate,
-      title,
-      body,
-      category,
-      tags,
-      image,
-      submited
-    } = this.state;
+    const { title, body, submited, image } = this.state;
 
     const { entry } = this.props;
 
@@ -136,58 +93,25 @@ export default class JournalForm extends Component<
 
             <Form.Group controlId="title">
               <Form.Label>Title</Form.Label>
-              <InputGroup>
-                <Form.Control
-                  type="text"
-                  name="title"
-                  placeholder="My Title"
-                  value={title}
-                  required
-                  onChange={this.updateValue}
-                />
-                <InputGroup.Append>
-                  <Button
-                    title="Public is visable to everyone"
-                    onClick={this.updateVisiablity}
-                  >
-                    {isPrivate ? 'Private' : 'Public'}
-                  </Button>
-                </InputGroup.Append>
-              </InputGroup>
-            </Form.Group>
-
-            <Form.Group controlId="image">
-              <Form.Label>Image URL</Form.Label>
               <Form.Control
-                name="image"
-                type="url"
-                value={image}
+                type="text"
+                name="title"
+                placeholder="My Title"
+                value={title}
+                required
                 onChange={this.updateValue}
               />
             </Form.Group>
 
-            <Form.Group controlId="category">
-              <Form.Label>Category</Form.Label>
+            <Form.Group controlId="image">
+              <Form.Label>Image</Form.Label>
               <Form.Control
-                as="input"
-                type="text"
-                name="category"
-                placeholder="Category1, Category2"
-                value={category.join(', ')}
-                onChange={this.updateCategory}
+                type="url"
+                name="image"
+                placeholder="http://example.com/image.jpg"
+                value={image}
+                onChange={this.updateValue}
               />
-              <Form.Text>comma seperated list</Form.Text>
-            </Form.Group>
-
-            <Form.Group controlId="tags">
-              <Form.Label>Tags</Form.Label>
-              <Form.Control
-                name="tags"
-                value={tags.join(', ')}
-                placeholder="one, two, three"
-                onChange={this.updateTags}
-              />
-              <Form.Text>comma seperated list</Form.Text>
             </Form.Group>
 
             <Form.Group controlId="body">
@@ -203,14 +127,9 @@ export default class JournalForm extends Component<
             </Form.Group>
 
             <footer>
-              <ButtonGroup>
-                <Button type="submit">
-                  {entry ? 'Edit Post' : 'Create New Post'}
-                </Button>
-                <Button type="button" variant="secondary">
-                  Preview
-                </Button>
-              </ButtonGroup>
+              <Button type="submit">
+                {entry ? 'Edit Post' : 'Create New Post'}
+              </Button>
             </footer>
           </Form>
         </Container>

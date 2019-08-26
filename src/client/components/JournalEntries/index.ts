@@ -19,7 +19,7 @@ export interface JournalStateProps {
 }
 
 export interface DispatchProps {
-  getJournalEntries: (limit?: number, offset?: number) => Promise<void>;
+  getJournalEntries: () => Promise<void>;
   deleteEntry(id: string): Promise<DeleteResponse>;
 }
 
@@ -31,8 +31,7 @@ function mapDispatchToProps(
   dispatch: ThunkDispatch<StoreState, AxiosInstance, Action>
 ): DispatchProps {
   return {
-    getJournalEntries: (limit?: number, offset?: number) =>
-      dispatch(getJournalEntries(limit, offset)),
+    getJournalEntries: () => dispatch(getJournalEntries()),
 
     deleteEntry(id): Promise<DeleteResponse> {
       return dispatch(deleteJournalEntry(id));
