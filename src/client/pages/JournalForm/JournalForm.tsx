@@ -88,7 +88,7 @@ export default class JournalForm extends Component<
         <Container>
           <Form method="post" autoComplete="off" onSubmit={this.submitNewEntry}>
             <header>
-              <h2>{entry ? 'Edit' : 'False'} Post</h2>
+              <h2>{entry ? 'Edit' : 'New'} Post</h2>
             </header>
 
             <Form.Group controlId="title">
