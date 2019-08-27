@@ -6,12 +6,14 @@ import { StatusCode } from '../../components/StatusCode';
 import { Redirect } from 'react-router';
 import { Layout } from '../../components/Layout';
 import SEO from '../../components/SEO';
+import { ActionTypes } from '../../actions';
 
 interface SignupState {
   username: string;
   email: string;
   password: string;
   confirmPassword: string;
+  success: boolean;
   error: string | null;
 }
 
@@ -25,6 +27,7 @@ export class Signup extends Component<
     email: '',
     password: '',
     confirmPassword: '',
+    success: false,
     error: null
   };
 
@@ -39,10 +42,10 @@ export class Signup extends Component<
   }
 
   public render() {
-    if (this.props.user) {
+    if (this.state.success) {
       return (
-        <StatusCode code={301}>
-          <Redirect to="/" />
+        <StatusCode code={302}>
+          <Redirect to="/signin" />
         </StatusCode>
       );
     }
@@ -122,7 +125,9 @@ export class Signup extends Component<
     );
   }
 
-  private submitForm = (event: FormEvent<HTMLFormElement>): void => {
+  private submitForm = async (
+    event: FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault();
 
     const { email, password, confirmPassword, username } = this.state;
@@ -133,7 +138,13 @@ export class Signup extends Component<
       return this.setState({ error: 'Passwords do not match' });
     }
 
-    this.props.signupUser({ username, email, password });
+    const action = await this.props.signupUser({ username, email, password });
+
+    if (action.type === ActionTypes.Signup_Success) {
+      this.setState({
+        success: true
+      });
+    }
   };
 
   private updateValue = (event: ChangeEvent<any>): void => {

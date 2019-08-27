@@ -9,14 +9,6 @@ export const userReducer = (
       return action.payload;
     }
 
-    case ActionTypes.Signup_Success: {
-      return action.payload;
-    }
-
-    case ActionTypes.Signin_Success: {
-      return state;
-    }
-
     default: {
       return state;
     }
